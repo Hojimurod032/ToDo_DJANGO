@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+    @keyframes slideInRight {
+        0% { opacity: 0; transform: translateX(30px) scale(0.9); }
+        100% { opacity: 1; transform: translateX(0) scale(1); }
+    }
+
+    @keyframes fadeOut {
+        to { opacity: 0; transform: translateY(-20px); }
+    }
+
+    .message-container {
+        position: fixed;
+        top: 25px;
+        right: 25px;
+        z-index: 10000;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        max-width: 380px;
+    }
+
+    .msg-card {
+        font-family: 'DM Mono', monospace;
+        font-size: 13px;
+        padding: 16px 20px;
+        border-radius: 14px;
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+        animation: slideInRight 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        border-left: 5px solid;
+        color: #fff;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    .msg-card:hover { transform: scale(1.02); }
+
+    .msg-error, .msg-danger {
+        background: rgba(255, 68, 68, 0.15);
+        border: 1px solid rgba(255, 68, 68, 0.3);
+        border-left-color: #ff4444;
+    }
+
+    .msg-success {
+        background: rgba(0, 230, 118, 0.15);
+        border: 1px solid rgba(0, 230, 118, 0.3);
+        border-left-color: #00e676;
+    }
+
+    .msg-info {
+        background: rgba(0, 176, 255, 0.15);
+        border: 1px solid rgba(0, 176, 255, 0.3);
+        border-left-color: #00b0ff;
+    }
+
+    .msg-content b {
+        text-transform: uppercase;
+        font-size: 10px;
+        display: block;
+        margin-bottom: 3px;
+        letter-spacing: 1px;
+        opacity: 0.6;
+    }
+</style>
+
+<body>
+
+{% if messages %}
+    <div class="message-container" id="msg-container">
+        {% for message in messages %}
+            <div class="msg-card msg-{{ message.tags }}" onclick="this.style.display='none'">
+                <span style="font-size: 20px;">
+                    {% if message.tags == 'success' %} ✅
+                    {% elif message.tags == 'error' or message.tags == 'danger' %} ⚡
+                    {% else %} ℹ️ {% endif %}
+                </span>
+                <div class="msg-content">
+                    <b>{{ message.tags }}</b>
+                    {{ message }}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <script>
+        setTimeout(function() {
+            let container = document.getElementById('msg-container');
+            if (container) {
+                let cards = container.getElementsByClassName('msg-card');
+                for (let card of cards) {
+                    card.style.animation = "fadeOut 0.5s forwards";
+                    setTimeout(() => card.remove(), 500);
+                }
+            }
+        }, 5000);
+    </script>
+{% endif %}
+</body>
+</html>

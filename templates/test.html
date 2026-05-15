@@ -1,0 +1,1167 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DoTask — Asosiy sahifa</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap"
+          rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0a0a0f;
+            --surface: #12121a;
+            --surface2: #1a1a26;
+            --border: #2a2a3a;
+            --accent: #ff3c5e;
+            --accent2: #7b2fff;
+            --green: #00dc82;
+            --yellow: #ffd700;
+            --text: #e8e8f0;
+            --muted: #6b6b80;
+            --input-bg: #1a1a26;
+            --sidebar-width: 280px;
+            --topbar-height: 64px;
+            --mobile-bottom-nav: 64px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'DM Sans', sans-serif;
+            min-height: 100vh;
+            display: flex;
+        }
+
+        /* ===== SIDEBAR ===== */
+        .sidebar {
+            width: var(--sidebar-width);
+            min-height: 100vh;
+            background: var(--surface);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 200;
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar-header {
+            padding: 28px 24px 20px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .brand {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 32px;
+            letter-spacing: 3px;
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .brand-sub {
+            font-size: 11px;
+            color: var(--muted);
+            letter-spacing: 2px;
+            margin-top: 2px;
+        }
+
+        .profile-card {
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--border);
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .profile-card:hover { background: rgba(255,255,255,0.03); }
+
+        .profile-avatar-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 22px;
+            color: white;
+            flex-shrink: 0;
+            box-shadow: 0 4px 20px rgba(255,60,94,0.3);
+        }
+
+        .profile-info .name { font-weight: 600; font-size: 15px; color: var(--text); }
+        .profile-info .username { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+        .profile-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 8px;
+        }
+
+        .stat-item {
+            background: var(--surface2);
+            border-radius: 8px;
+            padding: 8px;
+            text-align: center;
+            border: 1px solid var(--border);
+        }
+
+        .stat-num {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 22px;
+            color: var(--accent);
+            line-height: 1;
+        }
+
+        .stat-label { font-size: 10px; color: var(--muted); letter-spacing: 1px; margin-top: 2px; }
+
+        .sidebar-nav { padding: 16px 12px; flex: 1; }
+
+        .nav-label {
+            font-size: 10px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--muted);
+            padding: 0 12px;
+            margin: 8px 0 6px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 11px 14px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s;
+            font-size: 14px;
+            color: var(--muted);
+            margin-bottom: 2px;
+            text-decoration: none;
+        }
+
+        .nav-item:hover { background: rgba(255,255,255,0.05); color: var(--text); }
+        .nav-item.active { background: rgba(255,60,94,0.12); color: var(--accent); }
+        .nav-item .icon { font-size: 16px; width: 20px; text-align: center; }
+
+        .nav-item .badge {
+            margin-left: auto;
+            background: var(--accent);
+            color: white;
+            font-size: 10px;
+            font-weight: 600;
+            padding: 2px 7px;
+            border-radius: 20px;
+            min-width: 20px;
+            text-align: center;
+        }
+
+        .sidebar-footer {
+            padding: 16px 12px;
+            border-top: 1px solid var(--border);
+        }
+
+        .btn-logout {
+            width: 100%;
+            padding: 11px;
+            background: transparent;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            color: var(--muted);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+
+        .btn-logout:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: rgba(255,60,94,0.06);
+        }
+
+        /* Sidebar overlay for mobile */
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            z-index: 150;
+            backdrop-filter: blur(2px);
+        }
+
+        /* ===== MAIN ===== */
+        .main {
+            margin-left: var(--sidebar-width);
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .topbar {
+            position: sticky;
+            top: 0;
+            background: rgba(10,10,15,0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            padding: 0 32px;
+            height: var(--topbar-height);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 50;
+        }
+
+        .topbar-left { display: flex; align-items: center; gap: 14px; }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            padding: 6px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: var(--surface2);
+            transition: all 0.2s;
+        }
+
+        .hamburger span {
+            display: block;
+            width: 20px;
+            height: 2px;
+            background: var(--muted);
+            border-radius: 2px;
+            transition: all 0.3s;
+        }
+
+        .hamburger:hover span { background: var(--accent); }
+
+        .page-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 28px;
+            letter-spacing: 2px;
+        }
+
+        .page-title span { color: var(--accent); }
+
+        .topbar-right { display: flex; align-items: center; gap: 12px; }
+
+        .filter-tabs {
+            display: flex;
+            gap: 4px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 4px;
+        }
+
+        .filter-tab {
+            padding: 6px 14px;
+            border-radius: 7px;
+            font-size: 12px;
+            cursor: pointer;
+            color: var(--muted);
+            transition: all 0.2s;
+            font-weight: 500;
+            user-select: none;
+            white-space: nowrap;
+        }
+
+        .filter-tab.active { background: var(--accent); color: white; }
+        .filter-tab:hover:not(.active) { color: var(--text); }
+
+        .content { padding: 32px; flex: 1; }
+
+        /* Progress */
+        .progress-wrap {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 20px 24px;
+            margin-bottom: 28px;
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+            color: var(--muted);
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .progress-info strong { font-size: 15px; color: var(--text); }
+
+        .progress-bar-wrap {
+            background: var(--surface2);
+            border-radius: 4px;
+            height: 6px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent), var(--accent2));
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+
+        /* Add button */
+        .btn-add-new {
+            padding: 13px 28px;
+            background: linear-gradient(135deg, var(--accent), #c8203d);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 18px;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 6px 20px rgba(255,60,94,0.3);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 28px;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .btn-add-new:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(255,60,94,0.45);
+        }
+
+        /* Section header */
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+
+        .section-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 22px;
+            letter-spacing: 2px;
+            color: var(--muted);
+        }
+
+        .section-count {
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 4px 12px;
+            font-size: 12px;
+            color: var(--muted);
+        }
+
+        /* Todo list */
+        .todo-list { display: flex; flex-direction: column; gap: 10px; }
+
+        .todo-item {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 16px 18px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+            animation: todoIn 0.35s ease forwards;
+        }
+
+        @keyframes todoIn {
+            from { opacity: 0; transform: translateX(-15px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .todo-item:hover {
+            border-color: rgba(255,60,94,0.3);
+            transform: translateX(3px);
+            box-shadow: -3px 0 0 var(--accent);
+        }
+
+        .todo-item.done { opacity: 0.55; border-color: rgba(0,220,130,0.2); }
+
+        .todo-item.done:hover {
+            box-shadow: -3px 0 0 var(--green);
+            border-color: rgba(0,220,130,0.3);
+        }
+
+        .todo-check {
+            width: 42px;
+            height: 42px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            flex-shrink: 0;
+            border: 1px solid var(--border);
+            transition: all 0.25s ease;
+            cursor: pointer;
+        }
+
+        .todo-check.waiting {
+            background: rgba(255,215,0,0.08);
+            border-color: rgba(255,215,0,0.2);
+            box-shadow: 0 0 18px rgba(255,215,0,0.08);
+        }
+
+        .todo-check.progress {
+            background: rgba(255,60,94,0.08);
+            border-color: rgba(255,60,94,0.25);
+            box-shadow: 0 0 20px rgba(255,60,94,0.15);
+            animation: pulseFire 2s infinite;
+        }
+
+        .todo-check.done-status {
+            background: rgba(0,220,130,0.08);
+            border-color: rgba(0,220,130,0.25);
+            box-shadow: 0 0 18px rgba(0,220,130,0.15);
+        }
+
+        .todo-item:hover .todo-check { transform: scale(1.08); }
+
+        @keyframes pulseFire {
+            0% { transform: scale(1); box-shadow: 0 0 10px rgba(255,60,94,0.12); }
+            50% { transform: scale(1.08); box-shadow: 0 0 24px rgba(255,60,94,0.28); }
+            100% { transform: scale(1); box-shadow: 0 0 10px rgba(255,60,94,0.12); }
+        }
+
+        .todo-item.done .todo-check {
+            background: var(--green);
+            border-color: var(--green);
+            color: white;
+        }
+
+        .todo-body { flex: 1; min-width: 0; }
+
+        .todo-text {
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--text);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .todo-item.done .todo-text { text-decoration: line-through; color: var(--muted); }
+
+        .todo-meta {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 5px;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            font-size: 10px;
+            padding: 2px 9px;
+            border-radius: 20px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .badge-high { background: rgba(255,60,94,0.15); color: var(--accent); border: 1px solid rgba(255,60,94,0.25); }
+        .badge-medium { background: rgba(255,215,0,0.12); color: var(--yellow); border: 1px solid rgba(255,215,0,0.2); }
+        .badge-low { background: rgba(0,220,130,0.1); color: var(--green); border: 1px solid rgba(0,220,130,0.2); }
+        .badge-cat { background: rgba(123,47,255,0.12); color: #a56fff; border: 1px solid rgba(123,47,255,0.2); }
+
+        .todo-date { font-size: 11px; color: var(--muted); }
+
+        .todo-actions {
+            display: flex;
+            gap: 6px;
+            opacity: 0;
+            transition: opacity 0.2s;
+            flex-shrink: 0;
+        }
+
+        .todo-item:hover .todo-actions { opacity: 1; }
+
+        .action-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: var(--surface2);
+            color: var(--muted);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            transition: all 0.2s;
+            text-decoration: none;
+        }
+
+        .action-btn:hover { border-color: var(--accent2); color: var(--accent2); background: rgba(123,47,255,0.08); }
+        .action-btn.delete:hover { border-color: #ff4444; color: #ff4444; background: rgba(255,68,68,0.08); }
+
+        /* Empty state */
+        .empty-state { text-align: center; padding: 60px 20px; color: var(--muted); }
+        .empty-state .icon { font-size: 56px; margin-bottom: 16px; opacity: 0.6; }
+        .empty-state h3 { font-family: 'Bebas Neue', sans-serif; font-size: 24px; letter-spacing: 2px; margin-bottom: 8px; }
+        .empty-state p { font-size: 14px; }
+
+        /* ===== MODAL ===== */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.75);
+            backdrop-filter: blur(6px);
+            z-index: 999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+        }
+
+        .modal-overlay.show { display: flex; }
+
+        .modal {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 32px;
+            width: 100%;
+            max-width: 460px;
+            position: relative;
+            animation: modalIn 0.3s ease;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        @keyframes modalIn {
+            from { opacity: 0; transform: scale(0.9) translateY(-20px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .modal::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent), var(--accent2));
+            border-radius: 20px 20px 0 0;
+        }
+
+        .modal.edit-modal::before { background: linear-gradient(90deg, var(--accent2), var(--accent)); }
+
+        .modal-close {
+            position: absolute;
+            top: 16px; right: 16px;
+            width: 32px; height: 32px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: var(--surface2);
+            color: var(--muted);
+            font-size: 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .modal-close:hover { border-color: var(--accent); color: var(--accent); }
+
+        .modal-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 28px;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+        }
+
+        .modal-title .accent { color: var(--accent); }
+        .modal-title .accent2 { color: var(--accent2); }
+
+        .modal-group { margin-bottom: 16px; }
+
+        .modal-group label {
+            display: block;
+            font-size: 11px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 8px;
+        }
+
+        .modal-group input,
+        .modal-group select,
+        .modal-group textarea {
+            width: 100%;
+            background: var(--input-bg);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 12px 14px;
+            color: var(--text);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .modal-group textarea { resize: vertical; min-height: 80px; }
+
+        .modal-group input:focus,
+        .modal-group select:focus,
+        .modal-group textarea:focus { border-color: var(--accent); }
+
+        .modal-actions { display: flex; gap: 10px; margin-top: 24px; }
+
+        .btn-submit {
+            flex: 1;
+            padding: 13px;
+            background: linear-gradient(135deg, var(--accent), #c8203d);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 18px;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .btn-submit:hover { transform: translateY(-2px); }
+        .btn-submit.edit { background: linear-gradient(135deg, var(--accent2), #5a1fc8); }
+
+        .btn-cancel-modal {
+            padding: 13px 20px;
+            background: transparent;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            color: var(--muted);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-cancel-modal:hover { border-color: var(--accent); color: var(--accent); }
+
+        /* ===== PROFILE VIEW ===== */
+        .profile-view { display: none; padding: 32px; }
+        .profile-view.show { display: block; animation: fadeSlide 0.3s ease; }
+        .content.hide { display: none; }
+
+        @keyframes fadeSlide {
+            from { opacity: 0; transform: translateY(16px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .profile-big-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 600px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .profile-big-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent), var(--accent2));
+        }
+
+        .profile-big-avatar {
+            width: 90px; height: 90px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 42px;
+            color: white;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 30px rgba(255,60,94,0.3);
+        }
+
+        .profile-big-name { font-family: 'Bebas Neue', sans-serif; font-size: 36px; letter-spacing: 2px; margin-bottom: 4px; }
+        .profile-big-email { font-size: 14px; color: var(--muted); margin-bottom: 28px; }
+
+        .profile-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+
+        .profile-stat-card {
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+        }
+
+        .profile-stat-num {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 36px;
+            line-height: 1;
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .profile-stat-label { font-size: 11px; color: var(--muted); letter-spacing: 2px; text-transform: uppercase; margin-top: 4px; }
+
+        /* ===== MOBILE BOTTOM NAV ===== */
+        .mobile-bottom-nav {
+            display: none;
+            position: fixed;
+            bottom: 0; left: 0; right: 0;
+            height: var(--mobile-bottom-nav);
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+            z-index: 100;
+            justify-content: space-around;
+            align-items: center;
+            padding: 0 8px;
+        }
+
+        .mob-nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3px;
+            padding: 8px 16px;
+            border-radius: 10px;
+            cursor: pointer;
+            color: var(--muted);
+            font-size: 10px;
+            transition: all 0.2s;
+            letter-spacing: 1px;
+        }
+
+        .mob-nav-item .mob-icon { font-size: 20px; }
+        .mob-nav-item.active { color: var(--accent); }
+        .mob-nav-item:active { transform: scale(0.93); }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            body { overflow-x: hidden; }
+
+            .sidebar {
+                transform: translateX(-100%);
+                width: 280px;
+            }
+
+            .sidebar.open { transform: translateX(0); }
+            .sidebar-overlay { display: block; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+            .sidebar-overlay.show { opacity: 1; pointer-events: all; }
+
+            .hamburger { display: flex; }
+
+            .main { margin-left: 0; }
+
+            .topbar { padding: 0 16px; }
+
+            .page-title { font-size: 20px; }
+
+            /* Hide filter tabs in topbar on mobile - show in content instead */
+            .topbar-right .filter-tabs { display: none; }
+
+            .content { padding: 16px 16px 80px; }
+
+            .profile-view { padding: 16px 16px 80px; }
+
+            .btn-add-new { font-size: 15px; padding: 12px 20px; }
+
+            .todo-item { padding: 14px; gap: 10px; }
+            .todo-check { width: 36px; height: 36px; font-size: 16px; }
+            .todo-text { font-size: 14px; }
+
+            /* Always show actions on mobile */
+            .todo-actions { opacity: 1; }
+
+            .action-btn { width: 34px; height: 34px; }
+
+            .progress-wrap { padding: 16px; }
+
+            .profile-big-card { padding: 24px 20px; }
+            .profile-big-avatar { width: 72px; height: 72px; font-size: 32px; }
+            .profile-big-name { font-size: 28px; }
+
+            .profile-stats-grid { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+            .profile-stat-card { padding: 12px 8px; }
+            .profile-stat-num { font-size: 28px; }
+
+            .mobile-bottom-nav { display: flex; }
+
+            /* Mobile filter tabs inside content */
+            .mobile-filter-tabs {
+                display: flex;
+                gap: 4px;
+                background: var(--surface);
+                border: 1px solid var(--border);
+                border-radius: 10px;
+                padding: 4px;
+                margin-bottom: 20px;
+            }
+
+            .mobile-filter-tabs .filter-tab { flex: 1; text-align: center; padding: 8px 4px; }
+
+            .modal { padding: 24px 20px; }
+            .modal-title { font-size: 22px; }
+            .modal-actions { flex-direction: column; }
+            .btn-cancel-modal { text-align: center; }
+        }
+
+        @media (max-width: 400px) {
+            .todo-check { width: 32px; height: 32px; font-size: 14px; border-radius: 10px; }
+            .badge { font-size: 9px; padding: 2px 6px; }
+            .todo-date { display: none; }
+        }
+    </style>
+</head>
+<body>
+{% include "Error.html" %}
+
+<!-- Sidebar overlay -->
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
+<aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+        <div class="brand">DoTask</div>
+        <div class="brand-sub">Vazifalar Boshqaruvi</div>
+    </div>
+
+    <div class="profile-card" onclick="showProfile(); closeSidebar()">
+        <div class="profile-avatar-row">
+            <div class="avatar">
+                {{ request.user.last_name|slice:":1" }}{{ request.user.first_name|slice:":1" }}
+            </div>
+            <div class="profile-info">
+                <div class="name">{{ request.user.first_name }}</div>
+                <div class="username">{{ request.user.email }}</div>
+            </div>
+        </div>
+        <div class="profile-stats">
+            <div class="stat-item">
+                <div class="stat-num">{{ user_todo_count }}</div>
+                <div class="stat-label">Jami</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-num">{{ user_todo_succes }}</div>
+                <div class="stat-label">Bajarildi</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-num">{{ user_todo_other }}</div>
+                <div class="stat-label">Qoldi</div>
+            </div>
+        </div>
+    </div>
+
+    <nav class="sidebar-nav">
+        <div class="nav-label">Menyu</div>
+        <div class="nav-item active" id="navHome" onclick="showHome(); closeSidebar()">
+            <span class="icon">🏠</span> Bosh sahifa
+            <span class="badge">{{ user_todo_count }}</span>
+        </div>
+        <div class="nav-item" id="navProfile" onclick="showProfile(); closeSidebar()">
+            <span class="icon">👤</span> Profilim
+        </div>
+
+        <div class="nav-label">Vazifalar</div>
+        <div class="nav-item" onclick="setFilter('all'); closeSidebar()">
+            <span class="icon">📋</span> Barchasi
+        </div>
+        <div class="nav-item" onclick="setFilter('active'); closeSidebar()">
+            <span class="icon">⏳</span> Aktiv
+        </div>
+        <div class="nav-item" onclick="setFilter('done'); closeSidebar()">
+            <span class="icon">✅</span> Bajarilgan
+        </div>
+    </nav>
+
+    <div class="sidebar-footer">
+        <a href="{% url 'logout' %}" class="btn-logout">🚪 Chiqish</a>
+    </div>
+</aside>
+
+<div class="main">
+    <header class="topbar">
+        <div class="topbar-left">
+            <div class="hamburger" id="hamburger" onclick="toggleSidebar()">
+                <span></span><span></span><span></span>
+            </div>
+            <div class="page-title" id="pageTitle">MENING <span>VAZIFALARIM</span></div>
+        </div>
+        <div class="topbar-right">
+            <div class="filter-tabs">
+                <span class="filter-tab active" id="tab-all" onclick="setFilter('all')">Barchasi</span>
+                <span class="filter-tab" id="tab-active" onclick="setFilter('active')">Aktiv</span>
+                <span class="filter-tab" id="tab-done" onclick="setFilter('done')">Bajarilgan</span>
+            </div>
+        </div>
+    </header>
+
+    <div class="content" id="homeContent">
+
+        <!-- Mobile filter tabs -->
+        <div class="mobile-filter-tabs" id="mobileFilterTabs">
+            <span class="filter-tab active" id="mob-tab-all" onclick="setFilter('all')">Barchasi</span>
+            <span class="filter-tab" id="mob-tab-active" onclick="setFilter('active')">Aktiv</span>
+            <span class="filter-tab" id="mob-tab-done" onclick="setFilter('done')">Bajarilgan</span>
+        </div>
+
+        <div class="progress-wrap">
+            <div class="progress-info">
+                <strong>Salom, {{ request.user.first_name }}! 👋</strong>
+                <span>{{ user_todo_succes }} bajarildi</span>
+            </div>
+            <div class="progress-bar-wrap">
+                <div class="progress-bar-fill" style="width: {{ user_todo_succes }}%"></div>
+            </div>
+        </div>
+
+        <button class="btn-add-new" onclick="openAddModal()">
+            <span>＋</span> YANGI VAZIFA QO'SHISH
+        </button>
+
+        <div class="section-header">
+            <div class="section-title">VAZIFALAR RO'YXATI</div>
+            <div class="section-count">{{ user_todo_count }}</div>
+        </div>
+
+        <div class="todo-list">
+            {% for todo in user_todo %}
+                <div class="todo-item {% if todo.is_done %}done{% endif %}">
+                    <div class="todo-check
+                        {% if todo.status == 'Kutilmoqda' %}waiting
+                        {% elif todo.status == 'Bajarilmoqda' %}progress
+                        {% elif todo.status == 'Bajarildi' %}done-status
+                        {% endif %}">
+                        {% if todo.status == "Kutilmoqda" %}⏳
+                        {% elif todo.status == "Bajarilmoqda" %}🔥
+                        {% elif todo.status == "Bajarildi" %}✅
+                        {% else %}📌{% endif %}
+                    </div>
+                    <div class="todo-body">
+                        <div class="todo-text">{{ todo.title }}</div>
+                        <div class="todo-meta">
+                            <span class="badge badge-">{{ todo.desc }}</span>
+                            <span class="badge badge-cat">{{ todo.status }}</span>
+                            <span class="badge badge-cat" style="color:#0aa955;">{{ todo.cate }}</span>
+                            <span class="todo-date">📅 {{ todo.created_at }}</span>
+                        </div>
+                    </div>
+                    <div class="todo-actions">
+                        <a href="{% url 'edit' todo.id %}" class="action-btn" title="Tahrirlash">✏️</a>
+                        <a href="{% url 'delete' todo.pk %}" class="action-btn delete" title="O'chirish">🗑️</a>
+                    </div>
+                </div>
+            {% empty %}
+                <div class="empty-state">
+                    <div class="icon">📭</div>
+                    <h3>HALI HECH NARSA YO'Q</h3>
+                    <p>Yangi vazifa qo'shing va boshlang!</p>
+                </div>
+            {% endfor %}
+        </div>
+
+    </div>
+
+    <div class="profile-view" id="profileView">
+        <div class="section-header" style="margin-bottom: 24px;">
+            <div class="section-title">PROFILIM</div>
+        </div>
+        <div class="profile-big-card">
+            <div class="profile-big-avatar">
+                {{ request.user.last_name|slice:":1" }}{{ request.user.first_name|slice:":1" }}
+            </div>
+            <div class="profile-big-name">{{ request.user.first_name }}</div>
+            <div class="profile-big-email">{{ request.user.email }}</div>
+            <div class="profile-stats-grid">
+                <div class="profile-stat-card">
+                    <div class="profile-stat-num">{{ user_todo_count }}</div>
+                    <div class="profile-stat-label">Jami Vazifa</div>
+                </div>
+                <div class="profile-stat-card">
+                    <div class="profile-stat-num">{{ user_todo_succes }}</div>
+                    <div class="profile-stat-label">Bajarildi</div>
+                </div>
+                <div class="profile-stat-card">
+                    <div class="profile-stat-num">{{ user_todo_other }}</div>
+                    <div class="profile-stat-label">Qoldi</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Mobile Bottom Nav -->
+<nav class="mobile-bottom-nav">
+    <div class="mob-nav-item active" id="mobNavHome" onclick="showHome()">
+        <span class="mob-icon">🏠</span>
+        <span>Bosh</span>
+    </div>
+    <div class="mob-nav-item" onclick="openAddModal()">
+        <span class="mob-icon">➕</span>
+        <span>Qo'shish</span>
+    </div>
+    <div class="mob-nav-item" id="mobNavProfile" onclick="showProfile()">
+        <span class="mob-icon">👤</span>
+        <span>Profil</span>
+    </div>
+</nav>
+
+<!-- Add Modal -->
+<div class="modal-overlay" id="addModal">
+    <div class="modal">
+        <button class="modal-close" onclick="closeAddModal()">✕</button>
+        <h2 class="modal-title">YANGI <span class="accent">VAZIFA</span></h2>
+
+        <form action="{% url 'home' %}" method="POST">
+            {% csrf_token %}
+            <div class="modal-group">
+                <label>Vazifa nomi *</label>
+                <input type="text" name="title" placeholder="Nima qilish kerak?" required autofocus>
+            </div>
+
+            <div class="modal-group">
+                <label>Tavsif (ixtiyoriy)</label>
+                <textarea name="description" placeholder="Qo'shimcha ma'lumot..."></textarea>
+            </div>
+
+            <div class="modal-group">
+                <label>Muhimlik darajasi</label>
+                <select name="status" required>
+                    <option value="Kutilmoqda">🕒 Kutilmoqda</option>
+                    <option value="Bajarilmoqda">🔥 Bajarilmoqda</option>
+                    <option value="Bajarildi">🎉 Bajarildi</option>
+                </select>
+            </div>
+
+            <div class="modal-group">
+                <label>Kategoriya</label>
+                <select name="category">
+                    <option value="Umumiy">📌 Umumiy</option>
+                    <option value="Ish">💼 Ish</option>
+                    <option value="Oquv">📚 O'quv</option>
+                    <option value="Shaxsiy">👤 Shaxsiy</option>
+                    <option value="Sport">🏃 Sport</option>
+                    <option value="Dasturlash">💻 Dasturlash</option>
+                    <option value="Dizayn">🎨 Dizayn</option>
+                    <option value="Moliya">💰 Moliya</option>
+                    <option value="Soglik">🩺 Sog'liq</option>
+                    <option value="Sayohat">✈️ Sayohat</option>
+                    <option value="Ovqat">🍔 Ovqat</option>
+                    <option value="Musiqa">🎵 Musiqa</option>
+                    <option value="Film">🎬 Film</option>
+                    <option value="Kitob">📖 Kitob</option>
+                    <option value="Uy">🏠 Uy ishlari</option>
+                    <option value="Shopping">🛒 Shopping</option>
+                    <option value="Oyin">🎮 O'yin</option>
+                    <option value="Mashina">🚗 Mashina</option>
+                    <option value="Fitness">🏋️ Fitness</option>
+                    <option value="Uchrashuv">📅 Uchrashuv</option>
+                    <option value="Telegram">📱 Telegram</option>
+                    <option value="Internet">🌐 Internet</option>
+                    <option value="Startup">🚀 Startup</option>
+                    <option value="AI">🤖 AI</option>
+                    <option value="Muhim">⚡ Muhim</option>
+                </select>
+            </div>
+
+            <div class="modal-actions">
+                <button type="submit" class="btn-submit">QO'SHISH</button>
+                <button type="button" class="btn-cancel-modal" onclick="closeAddModal()">Bekor qilish</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    /* ---------- SIDEBAR MOBILE ---------- */
+    function toggleSidebar() {
+        document.getElementById('sidebar').classList.toggle('open');
+        document.getElementById('sidebarOverlay').classList.toggle('show');
+    }
+
+    function closeSidebar() {
+        document.getElementById('sidebar').classList.remove('open');
+        document.getElementById('sidebarOverlay').classList.remove('show');
+    }
+
+    /* ---------- VIEWS ---------- */
+    function showHome() {
+        document.getElementById('homeContent').classList.remove('hide');
+        document.getElementById('profileView').classList.remove('show');
+        document.getElementById('navHome').classList.add('active');
+        document.getElementById('navProfile').classList.remove('active');
+        document.getElementById('pageTitle').innerHTML = 'MENING <span style="color:var(--accent)">VAZIFALARIM</span>';
+        // Mobile nav
+        document.getElementById('mobNavHome').classList.add('active');
+        document.getElementById('mobNavProfile').classList.remove('active');
+    }
+
+    function showProfile() {
+        document.getElementById('homeContent').classList.add('hide');
+        document.getElementById('profileView').classList.add('show');
+        document.getElementById('navProfile').classList.add('active');
+        document.getElementById('navHome').classList.remove('active');
+        document.getElementById('pageTitle').innerHTML = '<span style="color:var(--accent)">PROFILIM</span>';
+        // Mobile nav
+        document.getElementById('mobNavProfile').classList.add('active');
+        document.getElementById('mobNavHome').classList.remove('active');
+    }
+
+    /* ---------- FILTER ---------- */
+    function setFilter(f) {
+        ['all', 'active', 'done'].forEach(k => {
+            document.getElementById('tab-' + k).classList.toggle('active', k === f);
+            const mob = document.getElementById('mob-tab-' + k);
+            if (mob) mob.classList.toggle('active', k === f);
+        });
+        showHome();
+    }
+
+    /* ---------- ADD MODAL ---------- */
+    function openAddModal() { document.getElementById('addModal').classList.add('show'); }
+    function closeAddModal() { document.getElementById('addModal').classList.remove('show'); }
+
+    document.getElementById('addModal').addEventListener('click', function(e) {
+        if (e.target === this) closeAddModal();
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') closeAddModal();
+    });
+</script>
+
+</body>
+</html>
