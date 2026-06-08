@@ -24,7 +24,11 @@
             --mobile-bottom-nav: 64px;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
         body {
             background: var(--bg);
@@ -78,7 +82,9 @@
             transition: background 0.2s;
         }
 
-        .profile-card:hover { background: rgba(255,255,255,0.03); }
+        .profile-card:hover {
+            background: rgba(255, 255, 255, 0.03);
+        }
 
         .profile-avatar-row {
             display: flex;
@@ -99,11 +105,20 @@
             font-size: 22px;
             color: white;
             flex-shrink: 0;
-            box-shadow: 0 4px 20px rgba(255,60,94,0.3);
+            box-shadow: 0 4px 20px rgba(255, 60, 94, 0.3);
         }
 
-        .profile-info .name { font-weight: 600; font-size: 15px; color: var(--text); }
-        .profile-info .username { font-size: 12px; color: var(--muted); margin-top: 2px; }
+        .profile-info .name {
+            font-weight: 600;
+            font-size: 15px;
+            color: var(--text);
+        }
+
+        .profile-info .username {
+            font-size: 12px;
+            color: var(--muted);
+            margin-top: 2px;
+        }
 
         .profile-stats {
             display: grid;
@@ -126,9 +141,17 @@
             line-height: 1;
         }
 
-        .stat-label { font-size: 10px; color: var(--muted); letter-spacing: 1px; margin-top: 2px; }
+        .stat-label {
+            font-size: 10px;
+            color: var(--muted);
+            letter-spacing: 1px;
+            margin-top: 2px;
+        }
 
-        .sidebar-nav { padding: 16px 12px; flex: 1; }
+        .sidebar-nav {
+            padding: 16px 12px;
+            flex: 1;
+        }
 
         .nav-label {
             font-size: 10px;
@@ -153,9 +176,21 @@
             text-decoration: none;
         }
 
-        .nav-item:hover { background: rgba(255,255,255,0.05); color: var(--text); }
-        .nav-item.active { background: rgba(255,60,94,0.12); color: var(--accent); }
-        .nav-item .icon { font-size: 16px; width: 20px; text-align: center; }
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text);
+        }
+
+        .nav-item.active {
+            background: rgba(255, 60, 94, 0.12);
+            color: var(--accent);
+        }
+
+        .nav-item .icon {
+            font-size: 16px;
+            width: 20px;
+            text-align: center;
+        }
 
         .nav-item .badge {
             margin-left: auto;
@@ -195,7 +230,7 @@
         .btn-logout:hover {
             border-color: var(--accent);
             color: var(--accent);
-            background: rgba(255,60,94,0.06);
+            background: rgba(255, 60, 94, 0.06);
         }
 
         /* Sidebar overlay for mobile */
@@ -203,7 +238,7 @@
             display: none;
             position: fixed;
             inset: 0;
-            background: rgba(0,0,0,0.6);
+            background: rgba(0, 0, 0, 0.6);
             z-index: 150;
             backdrop-filter: blur(2px);
         }
@@ -220,7 +255,7 @@
         .topbar {
             position: sticky;
             top: 0;
-            background: rgba(10,10,15,0.85);
+            background: rgba(10, 10, 15, 0.85);
             backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--border);
             padding: 0 32px;
@@ -231,7 +266,11 @@
             z-index: 50;
         }
 
-        .topbar-left { display: flex; align-items: center; gap: 14px; }
+        .topbar-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
 
         .hamburger {
             display: none;
@@ -254,7 +293,9 @@
             transition: all 0.3s;
         }
 
-        .hamburger:hover span { background: var(--accent); }
+        .hamburger:hover span {
+            background: var(--accent);
+        }
 
         .page-title {
             font-family: 'Bebas Neue', sans-serif;
@@ -262,9 +303,15 @@
             letter-spacing: 2px;
         }
 
-        .page-title span { color: var(--accent); }
+        .page-title span {
+            color: var(--accent);
+        }
 
-        .topbar-right { display: flex; align-items: center; gap: 12px; }
+        .topbar-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
 
         .filter-tabs {
             display: flex;
@@ -287,10 +334,19 @@
             white-space: nowrap;
         }
 
-        .filter-tab.active { background: var(--accent); color: white; }
-        .filter-tab:hover:not(.active) { color: var(--text); }
+        .filter-tab.active {
+            background: var(--accent);
+            color: white;
+        }
 
-        .content { padding: 32px; flex: 1; }
+        .filter-tab:hover:not(.active) {
+            color: var(--text);
+        }
+
+        .content {
+            padding: 32px;
+            flex: 1;
+        }
 
         /* Progress */
         .progress-wrap {
@@ -311,7 +367,10 @@
             gap: 6px;
         }
 
-        .progress-info strong { font-size: 15px; color: var(--text); }
+        .progress-info strong {
+            font-size: 15px;
+            color: var(--text);
+        }
 
         .progress-bar-wrap {
             background: var(--surface2);
@@ -340,7 +399,7 @@
             letter-spacing: 2px;
             cursor: pointer;
             transition: transform 0.2s, box-shadow 0.2s;
-            box-shadow: 0 6px 20px rgba(255,60,94,0.3);
+            box-shadow: 0 6px 20px rgba(255, 60, 94, 0.3);
             display: inline-flex;
             align-items: center;
             gap: 10px;
@@ -351,7 +410,7 @@
 
         .btn-add-new:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(255,60,94,0.45);
+            box-shadow: 0 10px 30px rgba(255, 60, 94, 0.45);
         }
 
         /* Section header */
@@ -379,7 +438,11 @@
         }
 
         /* Todo list */
-        .todo-list { display: flex; flex-direction: column; gap: 10px; }
+        .todo-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
 
         .todo-item {
             background: var(--surface);
@@ -394,21 +457,30 @@
         }
 
         @keyframes todoIn {
-            from { opacity: 0; transform: translateX(-15px); }
-            to { opacity: 1; transform: translateX(0); }
+            from {
+                opacity: 0;
+                transform: translateX(-15px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
         }
 
         .todo-item:hover {
-            border-color: rgba(255,60,94,0.3);
+            border-color: rgba(255, 60, 94, 0.3);
             transform: translateX(3px);
             box-shadow: -3px 0 0 var(--accent);
         }
 
-        .todo-item.done { opacity: 0.55; border-color: rgba(0,220,130,0.2); }
+        .todo-item.done {
+            opacity: 0.55;
+            border-color: rgba(0, 220, 130, 0.2);
+        }
 
         .todo-item.done:hover {
             box-shadow: -3px 0 0 var(--green);
-            border-color: rgba(0,220,130,0.3);
+            border-color: rgba(0, 220, 130, 0.3);
         }
 
         .todo-check {
@@ -426,30 +498,41 @@
         }
 
         .todo-check.waiting {
-            background: rgba(255,215,0,0.08);
-            border-color: rgba(255,215,0,0.2);
-            box-shadow: 0 0 18px rgba(255,215,0,0.08);
+            background: rgba(255, 215, 0, 0.08);
+            border-color: rgba(255, 215, 0, 0.2);
+            box-shadow: 0 0 18px rgba(255, 215, 0, 0.08);
         }
 
         .todo-check.progress {
-            background: rgba(255,60,94,0.08);
-            border-color: rgba(255,60,94,0.25);
-            box-shadow: 0 0 20px rgba(255,60,94,0.15);
+            background: rgba(255, 60, 94, 0.08);
+            border-color: rgba(255, 60, 94, 0.25);
+            box-shadow: 0 0 20px rgba(255, 60, 94, 0.15);
             animation: pulseFire 2s infinite;
         }
 
         .todo-check.done-status {
-            background: rgba(0,220,130,0.08);
-            border-color: rgba(0,220,130,0.25);
-            box-shadow: 0 0 18px rgba(0,220,130,0.15);
+            background: rgba(0, 220, 130, 0.08);
+            border-color: rgba(0, 220, 130, 0.25);
+            box-shadow: 0 0 18px rgba(0, 220, 130, 0.15);
         }
 
-        .todo-item:hover .todo-check { transform: scale(1.08); }
+        .todo-item:hover .todo-check {
+            transform: scale(1.08);
+        }
 
         @keyframes pulseFire {
-            0% { transform: scale(1); box-shadow: 0 0 10px rgba(255,60,94,0.12); }
-            50% { transform: scale(1.08); box-shadow: 0 0 24px rgba(255,60,94,0.28); }
-            100% { transform: scale(1); box-shadow: 0 0 10px rgba(255,60,94,0.12); }
+            0% {
+                transform: scale(1);
+                box-shadow: 0 0 10px rgba(255, 60, 94, 0.12);
+            }
+            50% {
+                transform: scale(1.08);
+                box-shadow: 0 0 24px rgba(255, 60, 94, 0.28);
+            }
+            100% {
+                transform: scale(1);
+                box-shadow: 0 0 10px rgba(255, 60, 94, 0.12);
+            }
         }
 
         .todo-item.done .todo-check {
@@ -458,7 +541,10 @@
             color: white;
         }
 
-        .todo-body { flex: 1; min-width: 0; }
+        .todo-body {
+            flex: 1;
+            min-width: 0;
+        }
 
         .todo-text {
             font-size: 15px;
@@ -469,7 +555,10 @@
             text-overflow: ellipsis;
         }
 
-        .todo-item.done .todo-text { text-decoration: line-through; color: var(--muted); }
+        .todo-item.done .todo-text {
+            text-decoration: line-through;
+            color: var(--muted);
+        }
 
         .todo-meta {
             display: flex;
@@ -488,12 +577,34 @@
             text-transform: uppercase;
         }
 
-        .badge-high { background: rgba(255,60,94,0.15); color: var(--accent); border: 1px solid rgba(255,60,94,0.25); }
-        .badge-medium { background: rgba(255,215,0,0.12); color: var(--yellow); border: 1px solid rgba(255,215,0,0.2); }
-        .badge-low { background: rgba(0,220,130,0.1); color: var(--green); border: 1px solid rgba(0,220,130,0.2); }
-        .badge-cat { background: rgba(123,47,255,0.12); color: #a56fff; border: 1px solid rgba(123,47,255,0.2); }
+        .badge-high {
+            background: rgba(255, 60, 94, 0.15);
+            color: var(--accent);
+            border: 1px solid rgba(255, 60, 94, 0.25);
+        }
 
-        .todo-date { font-size: 11px; color: var(--muted); }
+        .badge-medium {
+            background: rgba(255, 215, 0, 0.12);
+            color: var(--yellow);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+        }
+
+        .badge-low {
+            background: rgba(0, 220, 130, 0.1);
+            color: var(--green);
+            border: 1px solid rgba(0, 220, 130, 0.2);
+        }
+
+        .badge-cat {
+            background: rgba(123, 47, 255, 0.12);
+            color: #a56fff;
+            border: 1px solid rgba(123, 47, 255, 0.2);
+        }
+
+        .todo-date {
+            font-size: 11px;
+            color: var(--muted);
+        }
 
         .todo-actions {
             display: flex;
@@ -503,7 +614,9 @@
             flex-shrink: 0;
         }
 
-        .todo-item:hover .todo-actions { opacity: 1; }
+        .todo-item:hover .todo-actions {
+            opacity: 1;
+        }
 
         .action-btn {
             width: 32px;
@@ -521,20 +634,47 @@
             text-decoration: none;
         }
 
-        .action-btn:hover { border-color: var(--accent2); color: var(--accent2); background: rgba(123,47,255,0.08); }
-        .action-btn.delete:hover { border-color: #ff4444; color: #ff4444; background: rgba(255,68,68,0.08); }
+        .action-btn:hover {
+            border-color: var(--accent2);
+            color: var(--accent2);
+            background: rgba(123, 47, 255, 0.08);
+        }
+
+        .action-btn.delete:hover {
+            border-color: #ff4444;
+            color: #ff4444;
+            background: rgba(255, 68, 68, 0.08);
+        }
 
         /* Empty state */
-        .empty-state { text-align: center; padding: 60px 20px; color: var(--muted); }
-        .empty-state .icon { font-size: 56px; margin-bottom: 16px; opacity: 0.6; }
-        .empty-state h3 { font-family: 'Bebas Neue', sans-serif; font-size: 24px; letter-spacing: 2px; margin-bottom: 8px; }
-        .empty-state p { font-size: 14px; }
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--muted);
+        }
+
+        .empty-state .icon {
+            font-size: 56px;
+            margin-bottom: 16px;
+            opacity: 0.6;
+        }
+
+        .empty-state h3 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 24px;
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+        }
+
+        .empty-state p {
+            font-size: 14px;
+        }
 
         /* ===== MODAL ===== */
         .modal-overlay {
             position: fixed;
             inset: 0;
-            background: rgba(0,0,0,0.75);
+            background: rgba(0, 0, 0, 0.75);
             backdrop-filter: blur(6px);
             z-index: 999;
             display: none;
@@ -543,7 +683,9 @@
             padding: 16px;
         }
 
-        .modal-overlay.show { display: flex; }
+        .modal-overlay.show {
+            display: flex;
+        }
 
         .modal {
             background: var(--surface);
@@ -559,25 +701,37 @@
         }
 
         @keyframes modalIn {
-            from { opacity: 0; transform: scale(0.9) translateY(-20px); }
-            to { opacity: 1; transform: scale(1) translateY(0); }
+            from {
+                opacity: 0;
+                transform: scale(0.9) translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
         }
 
         .modal::before {
             content: '';
             position: absolute;
-            top: 0; left: 0; right: 0;
+            top: 0;
+            left: 0;
+            right: 0;
             height: 3px;
             background: linear-gradient(90deg, var(--accent), var(--accent2));
             border-radius: 20px 20px 0 0;
         }
 
-        .modal.edit-modal::before { background: linear-gradient(90deg, var(--accent2), var(--accent)); }
+        .modal.edit-modal::before {
+            background: linear-gradient(90deg, var(--accent2), var(--accent));
+        }
 
         .modal-close {
             position: absolute;
-            top: 16px; right: 16px;
-            width: 32px; height: 32px;
+            top: 16px;
+            right: 16px;
+            width: 32px;
+            height: 32px;
             border-radius: 8px;
             border: 1px solid var(--border);
             background: var(--surface2);
@@ -590,7 +744,10 @@
             transition: all 0.2s;
         }
 
-        .modal-close:hover { border-color: var(--accent); color: var(--accent); }
+        .modal-close:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
 
         .modal-title {
             font-family: 'Bebas Neue', sans-serif;
@@ -599,10 +756,17 @@
             margin-bottom: 20px;
         }
 
-        .modal-title .accent { color: var(--accent); }
-        .modal-title .accent2 { color: var(--accent2); }
+        .modal-title .accent {
+            color: var(--accent);
+        }
 
-        .modal-group { margin-bottom: 16px; }
+        .modal-title .accent2 {
+            color: var(--accent2);
+        }
+
+        .modal-group {
+            margin-bottom: 16px;
+        }
 
         .modal-group label {
             display: block;
@@ -628,13 +792,22 @@
             transition: border-color 0.3s;
         }
 
-        .modal-group textarea { resize: vertical; min-height: 80px; }
+        .modal-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
 
         .modal-group input:focus,
         .modal-group select:focus,
-        .modal-group textarea:focus { border-color: var(--accent); }
+        .modal-group textarea:focus {
+            border-color: var(--accent);
+        }
 
-        .modal-actions { display: flex; gap: 10px; margin-top: 24px; }
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 24px;
+        }
 
         .btn-submit {
             flex: 1;
@@ -650,8 +823,13 @@
             transition: transform 0.2s;
         }
 
-        .btn-submit:hover { transform: translateY(-2px); }
-        .btn-submit.edit { background: linear-gradient(135deg, var(--accent2), #5a1fc8); }
+        .btn-submit:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-submit.edit {
+            background: linear-gradient(135deg, var(--accent2), #5a1fc8);
+        }
 
         .btn-cancel-modal {
             padding: 13px 20px;
@@ -665,16 +843,35 @@
             transition: all 0.2s;
         }
 
-        .btn-cancel-modal:hover { border-color: var(--accent); color: var(--accent); }
+        .btn-cancel-modal:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
 
         /* ===== PROFILE VIEW ===== */
-        .profile-view { display: none; padding: 32px; }
-        .profile-view.show { display: block; animation: fadeSlide 0.3s ease; }
-        .content.hide { display: none; }
+        .profile-view {
+            display: none;
+            padding: 32px;
+        }
+
+        .profile-view.show {
+            display: block;
+            animation: fadeSlide 0.3s ease;
+        }
+
+        .content.hide {
+            display: none;
+        }
 
         @keyframes fadeSlide {
-            from { opacity: 0; transform: translateY(16px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(16px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .profile-big-card {
@@ -690,13 +887,16 @@
         .profile-big-card::before {
             content: '';
             position: absolute;
-            top: 0; left: 0; right: 0;
+            top: 0;
+            left: 0;
+            right: 0;
             height: 3px;
             background: linear-gradient(90deg, var(--accent), var(--accent2));
         }
 
         .profile-big-avatar {
-            width: 90px; height: 90px;
+            width: 90px;
+            height: 90px;
             border-radius: 50%;
             background: linear-gradient(135deg, var(--accent), var(--accent2));
             display: flex;
@@ -706,11 +906,21 @@
             font-size: 42px;
             color: white;
             margin-bottom: 20px;
-            box-shadow: 0 8px 30px rgba(255,60,94,0.3);
+            box-shadow: 0 8px 30px rgba(255, 60, 94, 0.3);
         }
 
-        .profile-big-name { font-family: 'Bebas Neue', sans-serif; font-size: 36px; letter-spacing: 2px; margin-bottom: 4px; }
-        .profile-big-email { font-size: 14px; color: var(--muted); margin-bottom: 28px; }
+        .profile-big-name {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 36px;
+            letter-spacing: 2px;
+            margin-bottom: 4px;
+        }
+
+        .profile-big-email {
+            font-size: 14px;
+            color: var(--muted);
+            margin-bottom: 28px;
+        }
 
         .profile-stats-grid {
             display: grid;
@@ -736,13 +946,21 @@
             background-clip: text;
         }
 
-        .profile-stat-label { font-size: 11px; color: var(--muted); letter-spacing: 2px; text-transform: uppercase; margin-top: 4px; }
+        .profile-stat-label {
+            font-size: 11px;
+            color: var(--muted);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-top: 4px;
+        }
 
         /* ===== MOBILE BOTTOM NAV ===== */
         .mobile-bottom-nav {
             display: none;
             position: fixed;
-            bottom: 0; left: 0; right: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
             height: var(--mobile-bottom-nav);
             background: var(--surface);
             border-top: 1px solid var(--border);
@@ -766,60 +984,138 @@
             letter-spacing: 1px;
         }
 
-        .mob-nav-item .mob-icon { font-size: 20px; }
-        .mob-nav-item.active { color: var(--accent); }
-        .mob-nav-item:active { transform: scale(0.93); }
+        .mob-nav-item .mob-icon {
+            font-size: 20px;
+        }
+
+        .mob-nav-item.active {
+            color: var(--accent);
+        }
+
+        .mob-nav-item:active {
+            transform: scale(0.93);
+        }
 
         /* ===== RESPONSIVE ===== */
         @media (max-width: 768px) {
-            body { overflow-x: hidden; }
+            body {
+                overflow-x: hidden;
+            }
 
             .sidebar {
                 transform: translateX(-100%);
                 width: 280px;
             }
 
-            .sidebar.open { transform: translateX(0); }
-            .sidebar-overlay { display: block; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
-            .sidebar-overlay.show { opacity: 1; pointer-events: all; }
+            .sidebar.open {
+                transform: translateX(0);
+            }
 
-            .hamburger { display: flex; }
+            .sidebar-overlay {
+                display: block;
+                opacity: 0;
+                pointer-events: none;
+                transition: opacity 0.3s;
+            }
 
-            .main { margin-left: 0; }
+            .sidebar-overlay.show {
+                opacity: 1;
+                pointer-events: all;
+            }
 
-            .topbar { padding: 0 16px; }
+            .hamburger {
+                display: flex;
+            }
 
-            .page-title { font-size: 20px; }
+            .main {
+                margin-left: 0;
+            }
+
+            .topbar {
+                padding: 0 16px;
+            }
+
+            .page-title {
+                font-size: 20px;
+            }
 
             /* Hide filter tabs in topbar on mobile - show in content instead */
-            .topbar-right .filter-tabs { display: none; }
+            .topbar-right .filter-tabs {
+                display: none;
+            }
 
-            .content { padding: 16px 16px 80px; }
+            .content {
+                padding: 16px 16px 80px;
+            }
 
-            .profile-view { padding: 16px 16px 80px; }
+            .profile-view {
+                padding: 16px 16px 80px;
+            }
 
-            .btn-add-new { font-size: 15px; padding: 12px 20px; }
+            .btn-add-new {
+                font-size: 15px;
+                padding: 12px 20px;
+            }
 
-            .todo-item { padding: 14px; gap: 10px; }
-            .todo-check { width: 36px; height: 36px; font-size: 16px; }
-            .todo-text { font-size: 14px; }
+            .todo-item {
+                padding: 14px;
+                gap: 10px;
+            }
+
+            .todo-check {
+                width: 36px;
+                height: 36px;
+                font-size: 16px;
+            }
+
+            .todo-text {
+                font-size: 14px;
+            }
 
             /* Always show actions on mobile */
-            .todo-actions { opacity: 1; }
+            .todo-actions {
+                opacity: 1;
+            }
 
-            .action-btn { width: 34px; height: 34px; }
+            .action-btn {
+                width: 34px;
+                height: 34px;
+            }
 
-            .progress-wrap { padding: 16px; }
+            .progress-wrap {
+                padding: 16px;
+            }
 
-            .profile-big-card { padding: 24px 20px; }
-            .profile-big-avatar { width: 72px; height: 72px; font-size: 32px; }
-            .profile-big-name { font-size: 28px; }
+            .profile-big-card {
+                padding: 24px 20px;
+            }
 
-            .profile-stats-grid { grid-template-columns: repeat(3, 1fr); gap: 8px; }
-            .profile-stat-card { padding: 12px 8px; }
-            .profile-stat-num { font-size: 28px; }
+            .profile-big-avatar {
+                width: 72px;
+                height: 72px;
+                font-size: 32px;
+            }
 
-            .mobile-bottom-nav { display: flex; }
+            .profile-big-name {
+                font-size: 28px;
+            }
+
+            .profile-stats-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 8px;
+            }
+
+            .profile-stat-card {
+                padding: 12px 8px;
+            }
+
+            .profile-stat-num {
+                font-size: 28px;
+            }
+
+            .mobile-bottom-nav {
+                display: flex;
+            }
 
             /* Mobile filter tabs inside content */
             .mobile-filter-tabs {
@@ -832,25 +1128,51 @@
                 margin-bottom: 20px;
             }
 
-            .mobile-filter-tabs .filter-tab { flex: 1; text-align: center; padding: 8px 4px; }
+            .mobile-filter-tabs .filter-tab {
+                flex: 1;
+                text-align: center;
+                padding: 8px 4px;
+            }
 
-            .modal { padding: 24px 20px; }
-            .modal-title { font-size: 22px; }
-            .modal-actions { flex-direction: column; }
-            .btn-cancel-modal { text-align: center; }
+            .modal {
+                padding: 24px 20px;
+            }
+
+            .modal-title {
+                font-size: 22px;
+            }
+
+            .modal-actions {
+                flex-direction: column;
+            }
+
+            .btn-cancel-modal {
+                text-align: center;
+            }
         }
 
         @media (max-width: 400px) {
-            .todo-check { width: 32px; height: 32px; font-size: 14px; border-radius: 10px; }
-            .badge { font-size: 9px; padding: 2px 6px; }
-            .todo-date { display: none; }
+            .todo-check {
+                width: 32px;
+                height: 32px;
+                font-size: 14px;
+                border-radius: 10px;
+            }
+
+            .badge {
+                font-size: 9px;
+                padding: 2px 6px;
+            }
+
+            .todo-date {
+                display: none;
+            }
         }
     </style>
 </head>
 <body>
 {% include "Error.html" %}
 
-<!-- Sidebar overlay -->
 <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
 
 <aside class="sidebar" id="sidebar">
@@ -858,8 +1180,7 @@
         <div class="brand">DoTask</div>
         <div class="brand-sub">Vazifalar Boshqaruvi</div>
     </div>
-
-    <div class="profile-card" onclick="showProfile(); closeSidebar()">
+    <a class="profile-card" href="{% url 'profile' %}" style="text-decoration: none">
         <div class="profile-avatar-row">
             <div class="avatar">
                 {{ request.user.last_name|slice:":1" }}{{ request.user.first_name|slice:":1" }}
@@ -883,7 +1204,7 @@
                 <div class="stat-label">Qoldi</div>
             </div>
         </div>
-    </div>
+    </a>
 
     <nav class="sidebar-nav">
         <div class="nav-label">Menyu</div>
@@ -891,9 +1212,12 @@
             <span class="icon">🏠</span> Bosh sahifa
             <span class="badge">{{ user_todo_count }}</span>
         </div>
-        <div class="nav-item" id="navProfile" onclick="showProfile(); closeSidebar()">
-            <span class="icon">👤</span> Profilim
-        </div>
+        <a class="nav-item" href="{% url 'profile' %}">
+            <span class="icon">👤</span>Profilim
+        </a>
+        <a class="nav-item" href="{% url 'setting' %}">
+            <span class="icon">⚙️</span> Sozlamalar
+        </a>
     </nav>
 
     <div class="sidebar-footer">
@@ -901,7 +1225,7 @@
     </div>
 </aside>
 
-<div class="main">  
+<div class="main">
     <header class="topbar">
         <div class="topbar-left">
             <div class="hamburger" id="hamburger" onclick="toggleSidebar()">
@@ -969,35 +1293,34 @@
 
     </div>
 
-    <div class="profile-view" id="profileView">
-        <div class="section-header" style="margin-bottom: 24px;">
-            <div class="section-title">PROFILIM</div>
-        </div>
-        <div class="profile-big-card">
-            <div class="profile-big-avatar">
-                {{ request.user.last_name|slice:":1" }}{{ request.user.first_name|slice:":1" }}
-            </div>
-            <div class="profile-big-name">{{ request.user.first_name }}</div>
-            <div class="profile-big-email">{{ request.user.email }}</div>
-            <div class="profile-stats-grid">
-                <div class="profile-stat-card">
-                    <div class="profile-stat-num">{{ user_todo_count }}</div>
-                    <div class="profile-stat-label">Jami Vazifa</div>
-                </div>
-                <div class="profile-stat-card">
-                    <div class="profile-stat-num">{{ user_todo_succes }}</div>
-                    <div class="profile-stat-label">Bajarildi</div>
-                </div>
-                <div class="profile-stat-card">
-                    <div class="profile-stat-num">{{ user_todo_other }}</div>
-                    <div class="profile-stat-label">Qoldi</div>
-                </div>
-            </div>
-        </div>
-    </div>
+    {#    <div class="profile-view" id="profileView">#}
+    {#        <div class="section-header" style="margin-bottom: 24px;">#}
+    {#            <div class="section-title">PROFILIM</div>#}
+    {#        </div>#}
+    {#        <div class="profile-big-card">#}
+    {#            <div class="profile-big-avatar">#}
+    {#                {{ request.user.last_name|slice:":1" }}{{ request.user.first_name|slice:":1" }}#}
+    {#            </div>#}
+    {#            <div class="profile-big-name">{{ request.user.first_name }}</div>#}
+    {#            <div class="profile-big-email">{{ request.user.email }}</div>#}
+    {#            <div class="profile-stats-grid">#}
+    {#                <div class="profile-stat-card">#}
+    {#                    <div class="profile-stat-num">{{ user_todo_count }}</div>#}
+    {#                    <div class="profile-stat-label">Jami Vazifa</div>#}
+    {#                </div>#}
+    {#                <div class="profile-stat-card">#}
+    {#                    <div class="profile-stat-num">{{ user_todo_succes }}</div>#}
+    {#                    <div class="profile-stat-label">Bajarildi</div>#}
+    {#                </div>#}
+    {#                <div class="profile-stat-card">#}
+    {#                    <div class="profile-stat-num">{{ user_todo_other }}</div>#}
+    {#                    <div class="profile-stat-label">Qoldi</div>#}
+    {#                </div>#}
+    {#            </div>#}
+    {#        </div>#}
+    {#    </div>#}
 </div>
 
-<!-- Mobile Bottom Nav -->
 <nav class="mobile-bottom-nav">
     <div class="mob-nav-item active" id="mobNavHome" onclick="showHome()">
         <span class="mob-icon">🏠</span>
@@ -1007,9 +1330,45 @@
         <span class="mob-icon">➕</span>
         <span>Qo'shish</span>
     </div>
-    <div class="mob-nav-item" id="mobNavProfile" onclick="showProfile()">
+    <a class="mob-nav-item" href="{% url 'profile' %}" style="text-decoration: none;">
         <span class="mob-icon">👤</span>
         <span>Profil</span>
+    </a>
+    <div class="mob-nav-item">
+        <a href="{% url 'logout' %}"
+           style="
+            display:flex;
+            flex-direction:column;
+            align-items:center;
+            justify-content:center;
+            text-decoration:none;
+            color:#ff3c5e;
+            font-size:10px;
+            letter-spacing:1px;
+            gap:3px;
+       ">
+
+        <span style="
+            width:38px;
+            height:38px;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            border-radius:14px;
+            background:rgba(255,60,94,0.12);
+            border:1px solid rgba(255,60,94,0.25);
+            box-shadow:0 0 18px rgba(255,60,94,0.15);
+            font-size:20px;
+            transition:all 0.2s ease;
+        "
+              onmouseover="this.style.transform='translateY(-3px) scale(1.08)'; this.style.boxShadow='0 0 25px rgba(255,60,94,0.35)'"
+              onmouseout="this.style.transform='none'; this.style.boxShadow='0 0 18px rgba(255,60,94,0.15)'"
+        >
+            ⛔️
+        </span>
+
+            <span>Chiqish</span>
+        </a>
     </div>
 </nav>
 
@@ -1124,14 +1483,19 @@
         showHome();
     }
 
-    function openAddModal() { document.getElementById('addModal').classList.add('show'); }
-    function closeAddModal() { document.getElementById('addModal').classList.remove('show'); }
+    function openAddModal() {
+        document.getElementById('addModal').classList.add('show');
+    }
 
-    document.getElementById('addModal').addEventListener('click', function(e) {
+    function closeAddModal() {
+        document.getElementById('addModal').classList.remove('show');
+    }
+
+    document.getElementById('addModal').addEventListener('click', function (e) {
         if (e.target === this) closeAddModal();
     });
 
-    document.addEventListener('keydown', function(e) {
+    document.addEventListener('keydown', function (e) {
         if (e.key === 'Escape') closeAddModal();
     });
 </script>

@@ -8,7 +8,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -33,6 +32,7 @@ ROOT_URLCONF = 'tododjango.urls'
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'login'
 AUTH_USER_MODEL = "apps.User"
+LOGOUT_REDIRECT_URL = 'login'
 
 TEMPLATES = [
     {
@@ -49,16 +49,13 @@ TEMPLATES = [
         },
     },
 ]
-
 WSGI_APPLICATION = 'tododjango.wsgi.application'
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -83,4 +80,9 @@ USE_I18N = True
 USE_TZ = True
 
 STATIC_URL = 'static/'
-CSRF_TRUSTED_ORIGINS = ['https://darryl-formalistic-grimly.ngrok-free.dev']
+CSRF_TRUSTED_ORIGINS = [
+    'https://darryl-formalistic-grimly.ngrok-free.dev',
+]
+SESSION_COOKIE_SAMESITE = 'Lax'
+SESSION_COOKIE_SECURE = False
+CSRF_COOKIE_SECURE = False

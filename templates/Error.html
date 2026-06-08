@@ -1,108 +1,1014 @@
+{#<!DOCTYPE html>#}
+{#<html lang="uz">#}
+{#<head>#}
+{#    <meta charset="UTF-8">#}
+{#    <title>Messages</title>#}
+{#    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">#}
+{#</head>#}
+{#<style>#}
+{#    @keyframes slideIn {#}
+{#        0% {#}
+{#            opacity: 0;#}
+{#            transform: translateX(60px) scale(0.94);#}
+{#        }#}
+{#        60% {#}
+{#            transform: translateX(-6px) scale(1.01);#}
+{#        }#}
+{#        100% {#}
+{#            opacity: 1;#}
+{#            transform: translateX(0) scale(1);#}
+{#        }#}
+{#    }#}
+{##}
+{#    @keyframes fadeOut {#}
+{#        to {#}
+{#            opacity: 0;#}
+{#            transform: translateY(-12px) scale(0.96);#}
+{#        }#}
+{#    }#}
+{##}
+{#    @keyframes progressShrink {#}
+{#        from {#}
+{#            width: 100%;#}
+{#        }#}
+{#        to {#}
+{#            width: 0%;#}
+{#        }#}
+{#    }#}
+{##}
+{#    .msg-stack {#}
+{#        position: fixed;#}
+{#        top: 22px;#}
+{#        right: 22px;#}
+{#        z-index: 99999;#}
+{#        display: flex;#}
+{#        flex-direction: column;#}
+{#        gap: 10px;#}
+{#        max-width: 360px;#}
+{#        width: calc(100vw - 44px);#}
+{#        pointer-events: none;#}
+{#    }#}
+{##}
+{#    .msg-card {#}
+{#        font-family: 'DM Sans', sans-serif;#}
+{#        pointer-events: all;#}
+{#        border-radius: 14px;#}
+{#        overflow: hidden;#}
+{#        animation: slideIn 0.45s cubic-bezier(0.22, 1, 0.36, 1) forwards;#}
+{#        cursor: pointer;#}
+{#        position: relative;#}
+{#        background: #12121a;#}
+{#        border: 1px solid #2a2a3a;#}
+{#        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35),#}
+{#        0 12px 36px rgba(0, 0, 0, 0.45),#}
+{#        inset 0 1px 0 rgba(255, 255, 255, 0.04);#}
+{#        transition: transform 0.18s ease, box-shadow 0.18s ease;#}
+{#    }#}
+{##}
+{#    .msg-card:hover {#}
+{#        transform: translateY(-2px) scale(1.015);#}
+{#        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4),#}
+{#        0 20px 48px rgba(0, 0, 0, 0.5),#}
+{#        inset 0 1px 0 rgba(255, 255, 255, 0.06);#}
+{#    }#}
+{##}
+{#    .msg-card:active {#}
+{#        transform: scale(0.98);#}
+{#    }#}
+{##}
+{#    /* Left glow strip */#}
+{#    .msg-card::before {#}
+{#        content: '';#}
+{#        position: absolute;#}
+{#        top: 0;#}
+{#        left: 0;#}
+{#        width: 3px;#}
+{#        height: 100%;#}
+{#        border-radius: 14px 0 0 14px;#}
+{#    }#}
+{##}
+{#    /* Inner layout */#}
+{#    .msg-inner {#}
+{#        display: flex;#}
+{#        align-items: flex-start;#}
+{#        gap: 12px;#}
+{#        padding: 15px 16px 14px 18px;#}
+{#    }#}
+{##}
+{#    .msg-icon-wrap {#}
+{#        width: 36px;#}
+{#        height: 36px;#}
+{#        border-radius: 10px;#}
+{#        display: flex;#}
+{#        align-items: center;#}
+{#        justify-content: center;#}
+{#        font-size: 17px;#}
+{#        flex-shrink: 0;#}
+{#        margin-top: 1px;#}
+{#    }#}
+{##}
+{#    .msg-body {#}
+{#        flex: 1;#}
+{#        min-width: 0;#}
+{#    }#}
+{##}
+{#    .msg-tag {#}
+{#        font-size: 10px;#}
+{#        font-weight: 600;#}
+{#        letter-spacing: 2px;#}
+{#        text-transform: uppercase;#}
+{#        margin-bottom: 3px;#}
+{#        display: block;#}
+{#    }#}
+{##}
+{#    .msg-text {#}
+{#        font-size: 13.5px;#}
+{#        font-weight: 400;#}
+{#        color: #c8c8d8;#}
+{#        line-height: 1.5;#}
+{#        word-break: break-word;#}
+{#    }#}
+{##}
+{#    .msg-close {#}
+{#        width: 22px;#}
+{#        height: 22px;#}
+{#        border-radius: 6px;#}
+{#        display: flex;#}
+{#        align-items: center;#}
+{#        justify-content: center;#}
+{#        font-size: 13px;#}
+{#        color: #4a4a5e;#}
+{#        background: transparent;#}
+{#        transition: background 0.15s, color 0.15s;#}
+{#        flex-shrink: 0;#}
+{#        margin-top: 1px;#}
+{#    }#}
+{##}
+{#    .msg-card:hover .msg-close {#}
+{#        background: rgba(255, 255, 255, 0.07);#}
+{#        color: #8888a0;#}
+{#    }#}
+{##}
+{#    /* Progress bar */#}
+{#    .msg-progress {#}
+{#        height: 2px;#}
+{#        margin: 0 3px 3px;#}
+{#        border-radius: 0 0 12px 12px;#}
+{#        overflow: hidden;#}
+{#        background: rgba(255, 255, 255, 0.05);#}
+{#    }#}
+{##}
+{#    .msg-progress-fill {#}
+{#        height: 100%;#}
+{#        border-radius: 2px;#}
+{#        animation: progressShrink 5s linear forwards;#}
+{#    }#}
+{##}
+{#    /* ========== VARIANTS ========== */#}
+{##}
+{#    /* SUCCESS */#}
+{#    .msg-success::before {#}
+{#        background: #00dc82;#}
+{#    }#}
+{##}
+{#    .msg-success .msg-icon-wrap {#}
+{#        background: rgba(0, 220, 130, 0.1);#}
+{#        border: 1px solid rgba(0, 220, 130, 0.2);#}
+{#    }#}
+{##}
+{#    .msg-success .msg-tag {#}
+{#        color: #00dc82;#}
+{#    }#}
+{##}
+{#    .msg-success .msg-progress-fill {#}
+{#        background: #00dc82;#}
+{#    }#}
+{##}
+{#    /* ERROR / DANGER */#}
+{#    .msg-error::before,#}
+{#    .msg-danger::before {#}
+{#        background: #ff3c5e;#}
+{#    }#}
+{##}
+{#    .msg-error .msg-icon-wrap,#}
+{#    .msg-danger .msg-icon-wrap {#}
+{#        background: rgba(255, 60, 94, 0.1);#}
+{#        border: 1px solid rgba(255, 60, 94, 0.2);#}
+{#    }#}
+{##}
+{#    .msg-error .msg-tag,#}
+{#    .msg-danger .msg-tag {#}
+{#        color: #ff3c5e;#}
+{#    }#}
+{##}
+{#    .msg-error .msg-progress-fill,#}
+{#    .msg-danger .msg-progress-fill {#}
+{#        background: #ff3c5e;#}
+{#    }#}
+{##}
+{#    /* WARNING */#}
+{#    .msg-warning::before {#}
+{#        background: #ffd700;#}
+{#    }#}
+{##}
+{#    .msg-warning .msg-icon-wrap {#}
+{#        background: rgba(255, 215, 0, 0.1);#}
+{#        border: 1px solid rgba(255, 215, 0, 0.2);#}
+{#    }#}
+{##}
+{#    .msg-warning .msg-tag {#}
+{#        color: #ffd700;#}
+{#    }#}
+{##}
+{#    .msg-warning .msg-progress-fill {#}
+{#        background: #ffd700;#}
+{#    }#}
+{##}
+{#    /* INFO */#}
+{#    .msg-info::before {#}
+{#        background: #7b2fff;#}
+{#    }#}
+{##}
+{#    .msg-info .msg-icon-wrap {#}
+{#        background: rgba(123, 47, 255, 0.1);#}
+{#        border: 1px solid rgba(123, 47, 255, 0.2);#}
+{#    }#}
+{##}
+{#    .msg-info .msg-tag {#}
+{#        color: #a56fff;#}
+{#    }#}
+{##}
+{#    .msg-info .msg-progress-fill {#}
+{#        background: #7b2fff;#}
+{#    }#}
+{##}
+{#    /* DEBUG */#}
+{#    .msg-debug::before {#}
+{#        background: #6b6b80;#}
+{#    }#}
+{##}
+{#    .msg-debug .msg-icon-wrap {#}
+{#        background: rgba(107, 107, 128, 0.12);#}
+{#        border: 1px solid rgba(107, 107, 128, 0.2);#}
+{#    }#}
+{##}
+{#    .msg-debug .msg-tag {#}
+{#        color: #8888a0;#}
+{#    }#}
+{##}
+{#    .msg-debug .msg-progress-fill {#}
+{#        background: #6b6b80;#}
+{#    }#}
+{##}
+{#    /* Mobile */#}
+{#    @media (max-width: 480px) {#}
+{#        .msg-stack {#}
+{#            top: 12px;#}
+{#            right: 12px;#}
+{#            width: calc(100vw - 24px);#}
+{#        }#}
+{##}
+{#        .msg-inner {#}
+{#            padding: 13px 14px 12px 16px;#}
+{#            gap: 10px;#}
+{#        }#}
+{##}
+{#        .msg-icon-wrap {#}
+{#            width: 32px;#}
+{#            height: 32px;#}
+{#            font-size: 15px;#}
+{#            border-radius: 8px;#}
+{#        }#}
+{##}
+{#        .msg-text {#}
+{#            font-size: 13px;#}
+{#        }#}
+{#    }#}
+{#</style>#}
+{##}
+{#<body>#}
+{##}
+{#{% if messages %}#}
+{#    <div class="msg-stack" id="msgStack">#}
+{#        {% for message in messages %}#}
+{#            <div class="msg-card msg-{{ message.tags }}" onclick="dismissMsg(this)" role="alert">#}
+{##}
+{#                <div class="msg-inner">#}
+{#                    <div class="msg-icon-wrap">#}
+{#                        {% if message.tags == 'success' %}✅#}
+{#                        {% elif message.tags == 'error' or message.tags == 'danger' %}⛔#}
+{#                        {% elif message.tags == 'warning' %}⚠️#}
+{#                        {% elif message.tags == 'info' %}💡#}
+{#                        {% elif message.tags == 'debug' %}🔧#}
+{#                        {% else %}📌{% endif %}#}
+{#                    </div>#}
+{#                    <div class="msg-body">#}
+{#                <span class="msg-tag">#}
+{#                    {% if message.tags == 'success' %}Muvaffaqiyat#}
+{#                    {% elif message.tags == 'error' or message.tags == 'danger' %}Xatolik#}
+{#                    {% elif message.tags == 'warning' %}Ogohlantirish#}
+{#                    {% elif message.tags == 'info' %}Ma'lumot#}
+{#                    {% elif message.tags == 'debug' %}Debug#}
+{#                    {% else %}{{ message.tags }}{% endif %}#}
+{#                </span>#}
+{#                        <div class="msg-text">{{ message }}</div>#}
+{#                    </div>#}
+{#                    <div class="msg-close">✕</div>#}
+{#                </div>#}
+{##}
+{#                <div class="msg-progress">#}
+{#                    <div class="msg-progress-fill"></div>#}
+{#                </div>#}
+{##}
+{#            </div>#}
+{#        {% endfor %}#}
+{#    </div>#}
+{##}
+{#    <script>#}
+{#        function dismissMsg(card) {#}
+{#            card.style.animation = 'fadeOut 0.35s ease forwards';#}
+{#            setTimeout(() => {#}
+{#                card.remove();#}
+{#                var stack = document.getElementById('msgStack');#}
+{#                if (stack && !stack.children.length) stack.remove();#}
+{#            }, 340);#} 
+{#        }#}
+{##}
+{#        (function () {#}
+{#            var DELAY = 5000;#}
+{#            var cards = document.querySelectorAll('.msg-card');#}
+{#            cards.forEach(function (card, i) {#}
+{#                setTimeout(function () {#}
+{#                    if (card.isConnected) dismissMsg(card);#}
+{#                }, DELAY + i * 400);#}
+{#            });#}
+{#        })();#}
+{#    </script>#}
+{#{% endif %}#}
+{##}
+{#</body>#}
+{#</html>#}
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="uz">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 </head>
 <style>
-    @keyframes slideInRight {
-        0% { opacity: 0; transform: translateX(30px) scale(0.9); }
-        100% { opacity: 1; transform: translateX(0) scale(1); }
+    @keyframes ultraIn {
+        0% {
+            opacity: 0;
+            transform: translateX(80px) scale(0.8) rotateY(15deg);
+        }
+        55% {
+            transform: translateX(-8px) scale(1.03) rotateY(-2deg);
+        }
+        75% {
+            transform: translateX(4px) scale(0.99) rotateY(0.5deg);
+        }
+        100% {
+            opacity: 1;
+            transform: translateX(0) scale(1) rotateY(0);
+        }
     }
 
-    @keyframes fadeOut {
-        to { opacity: 0; transform: translateY(-20px); }
+    @keyframes ultraOut {
+        0% {
+            opacity: 1;
+            transform: translateX(0) scale(1);
+            max-height: 120px;
+            margin-bottom: 11px;
+        }
+        40% {
+            transform: translateX(20px) scale(0.97);
+            opacity: 0.6;
+        }
+        100% {
+            opacity: 0;
+            transform: translateX(100%) scale(0.85);
+            max-height: 0;
+            margin-bottom: 0;
+            padding: 0;
+        }
     }
 
-    .message-container {
+    @keyframes progressTick {
+        from {
+            width: 100%;
+        }
+        to {
+            width: 0%;
+        }
+    }
+
+    @keyframes shimmer {
+        0% {
+            transform: translateX(-100%) skewX(-12deg);
+        }
+        100% {
+            transform: translateX(250%) skewX(-12deg);
+        }
+    }
+
+    @keyframes iconPop {
+        0% {
+            transform: scale(0) rotate(-30deg);
+            opacity: 0;
+        }
+        60% {
+            transform: scale(1.25) rotate(8deg);
+        }
+        80% {
+            transform: scale(0.92) rotate(-3deg);
+        }
+        100% {
+            transform: scale(1) rotate(0);
+            opacity: 1;
+        }
+    }
+
+    @keyframes tagSlide {
+        0% {
+            opacity: 0;
+            transform: translateY(-6px);
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes textFade {
+        0% {
+            opacity: 0;
+            transform: translateY(4px);
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes dotBlink {
+        0%, 100% {
+            opacity: 1;
+        }
+        50% {
+            opacity: 0.3;
+        }
+    }
+
+    .n-stack {
         position: fixed;
-        top: 25px;
-        right: 25px;
-        z-index: 10000;
+        top: 22px;
+        right: 22px;
+        z-index: 99999;
         display: flex;
         flex-direction: column;
-        gap: 12px;
+        gap: 11px;
         max-width: 380px;
+        width: calc(100vw - 44px);
+        pointer-events: none;
+        font-family: 'DM Sans', sans-serif;
     }
 
-    .msg-card {
-        font-family: 'DM Mono', monospace;
-        font-size: 13px;
-        padding: 16px 20px;
-        border-radius: 14px;
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
+    .n-card {
+        pointer-events: all;
+        border-radius: 16px;
+        overflow: hidden;
+        cursor: pointer;
+        position: relative;
+        border: 1px solid #1e1e2e;
+        background: #0e0e18;
+        animation: ultraIn 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+        transition: transform 0.2s ease;
+    }
+
+    .n-card:hover {
+        transform: translateY(-3px) scale(1.018);
+    }
+
+    .n-card:active {
+        transform: scale(0.97);
+    }
+
+    .n-card.dismissing {
+        animation: ultraOut 0.45s cubic-bezier(0.4, 0, 1, 1) forwards;
+    }
+
+    .n-shimmer {
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+        pointer-events: none;
+        border-radius: 16px;
+    }
+
+    .n-shimmer::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 50%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.04), transparent);
+        animation: shimmer 2.8s ease-in-out 0.8s infinite;
+    }
+
+    .n-glow {
+        position: absolute;
+        top: -1px;
+        left: -1px;
+        right: -1px;
+        bottom: -1px;
+        border-radius: 17px;
+        opacity: 0;
+        transition: opacity 0.3s;
+        pointer-events: none;
+    }
+
+    .n-card:hover .n-glow {
+        opacity: 1;
+    }
+
+    .n-stripe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 4px;
+        height: 100%;
+        border-radius: 16px 0 0 16px;
+    }
+
+    .n-body {
+        display: flex;
+        align-items: flex-start;
+        gap: 13px;
+        padding: 16px 16px 13px 19px;
+        position: relative;
+        z-index: 1;
+    }
+
+    .n-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 12px;
         display: flex;
         align-items: center;
-        gap: 15px;
-        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
-        animation: slideInRight 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-        border-left: 5px solid;
-        color: #fff;
-        cursor: pointer;
-        transition: 0.3s;
+        justify-content: center;
+        font-size: 18px;
+        flex-shrink: 0;
+        position: relative;
+        overflow: hidden;
+        animation: iconPop 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.3s both;
     }
 
-    .msg-card:hover { transform: scale(1.02); }
-
-    .msg-error, .msg-danger {
-        background: rgba(255, 68, 68, 0.15);
-        border: 1px solid rgba(255, 68, 68, 0.3);
-        border-left-color: #ff4444;
+    .n-icon::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.06);
+        opacity: 0;
+        transition: opacity 0.2s;
     }
 
-    .msg-success {
-        background: rgba(0, 230, 118, 0.15);
-        border: 1px solid rgba(0, 230, 118, 0.3);
-        border-left-color: #00e676;
+    .n-card:hover .n-icon::after {
+        opacity: 1;
     }
 
-    .msg-info {
-        background: rgba(0, 176, 255, 0.15);
-        border: 1px solid rgba(0, 176, 255, 0.3);
-        border-left-color: #00b0ff;
+    .n-live-dot {
+        position: absolute;
+        top: 1px;
+        right: 1px;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        border: 1.5px solid #0e0e18;
+        animation: dotBlink 1.8s ease-in-out infinite;
     }
 
-    .msg-content b {
-        text-transform: uppercase;
+    .n-text {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .n-tag {
         font-size: 10px;
-        display: block;
-        margin-bottom: 3px;
-        letter-spacing: 1px;
-        opacity: 0.6;
+        font-weight: 700;
+        letter-spacing: 2.5px;
+        text-transform: uppercase;
+        margin-bottom: 4px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        animation: tagSlide 0.4s ease 0.35s both;
+    }
+
+    .n-tag-dot {
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        flex-shrink: 0;
+    }
+
+    .n-msg {
+        font-size: 13.5px;
+        color: #b8b8cc;
+        line-height: 1.55;
+        animation: textFade 0.4s ease 0.42s both;
+    }
+
+    .n-time {
+        font-size: 10px;
+        color: #3a3a50;
+        margin-top: 5px;
+        animation: textFade 0.4s ease 0.48s both;
+    }
+
+    .n-close {
+        width: 26px;
+        height: 26px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        color: #2a2a40;
+        flex-shrink: 0;
+        transition: background 0.15s, color 0.15s;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        font-family: inherit;
+    }
+
+    .n-card:hover .n-close {
+        background: rgba(255, 255, 255, 0.06);
+        color: #606080;
+    }
+
+    .n-footer {
+        padding: 0 4px 4px;
+        position: relative;
+        z-index: 1;
+    }
+
+    .n-progress-bg {
+        height: 3px;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 0 0 13px 13px;
+        overflow: hidden;
+    }
+
+    .n-bar {
+        height: 100%;
+        border-radius: 2px;
+        animation: progressTick 5s linear forwards;
+    }
+
+    .nc-success .n-stripe {
+        background: linear-gradient(180deg, #00dc82, #00a86b);
+    }
+
+    .nc-success .n-glow {
+        box-shadow: 0 0 0 1px rgba(0, 220, 130, 0.25);
+    }
+
+    .nc-success .n-icon {
+        background: rgba(0, 220, 130, 0.1);
+        border: 1px solid rgba(0, 220, 130, 0.2);
+    }
+
+    .nc-success .n-live-dot {
+        background: #00dc82;
+    }
+
+    .nc-success .n-tag {
+        color: #00dc82;
+    }
+
+    .nc-success .n-tag-dot {
+        background: #00dc82;
+    }
+
+    .nc-success .n-bar {
+        background: linear-gradient(90deg, #00dc82, #00a86b);
+    }
+
+    .nc-error .n-stripe, .nc-danger .n-stripe {
+        background: linear-gradient(180deg, #ff3c5e, #c8203d);
+    }
+
+    .nc-error .n-glow, .nc-danger .n-glow {
+        box-shadow: 0 0 0 1px rgba(255, 60, 94, 0.25);
+    }
+
+    .nc-error .n-icon, .nc-danger .n-icon {
+        background: rgba(255, 60, 94, 0.1);
+        border: 1px solid rgba(255, 60, 94, 0.2);
+    }
+
+    .nc-error .n-live-dot, .nc-danger .n-live-dot {
+        background: #ff3c5e;
+    }
+
+    .nc-error .n-tag, .nc-danger .n-tag {
+        color: #ff3c5e;
+    }
+
+    .nc-error .n-tag-dot, .nc-danger .n-tag-dot {
+        background: #ff3c5e;
+    }
+
+    .nc-error .n-bar, .nc-danger .n-bar {
+        background: linear-gradient(90deg, #ff3c5e, #c8203d);
+    }
+
+    .nc-warning .n-stripe {
+        background: linear-gradient(180deg, #ffd700, #e5a800);
+    }
+
+    .nc-warning .n-glow {
+        box-shadow: 0 0 0 1px rgba(255, 215, 0, 0.25);
+    }
+
+    .nc-warning .n-icon {
+        background: rgba(255, 215, 0, 0.09);
+        border: 1px solid rgba(255, 215, 0, 0.2);
+    }
+
+    .nc-warning .n-live-dot {
+        background: #ffd700;
+    }
+
+    .nc-warning .n-tag {
+        color: #d4a800;
+    }
+
+    .nc-warning .n-tag-dot {
+        background: #ffd700;
+    }
+
+    .nc-warning .n-bar {
+        background: linear-gradient(90deg, #ffd700, #e5a800);
+    }
+
+    .nc-info .n-stripe {
+        background: linear-gradient(180deg, #7b2fff, #5a1fc8);
+    }
+
+    .nc-info .n-glow {
+        box-shadow: 0 0 0 1px rgba(123, 47, 255, 0.25);
+    }
+
+    .nc-info .n-icon {
+        background: rgba(123, 47, 255, 0.1);
+        border: 1px solid rgba(123, 47, 255, 0.2);
+    }
+
+    .nc-info .n-live-dot {
+        background: #7b2fff;
+    }
+
+    .nc-info .n-tag {
+        color: #a56fff;
+    }
+
+    .nc-info .n-tag-dot {
+        background: #7b2fff;
+    }
+
+    .nc-info .n-bar {
+        background: linear-gradient(90deg, #7b2fff, #5a1fc8);
+    }
+
+    .nc-debug .n-stripe {
+        background: linear-gradient(180deg, #6b6b80, #4a4a60);
+    }
+
+    .nc-debug .n-glow {
+        box-shadow: 0 0 0 1px rgba(107, 107, 128, 0.2);
+    }
+
+    .nc-debug .n-icon {
+        background: rgba(107, 107, 128, 0.1);
+        border: 1px solid rgba(107, 107, 128, 0.2);
+    }
+
+    .nc-debug .n-live-dot {
+        background: #6b6b80;
+    }
+
+    .nc-debug .n-tag {
+        color: #7070a0;
+    }
+
+    .nc-debug .n-tag-dot {
+        background: #6b6b80;
+    }
+
+    .nc-debug .n-bar {
+        background: linear-gradient(90deg, #6b6b80, #4a4a60);
+    }
+
+    @media (max-width: 480px) {
+        .n-stack {
+            top: 12px;
+            right: 12px;
+            width: calc(100vw - 24px);
+        }
+
+        .n-body {
+            padding: 13px 14px 12px 16px;
+            gap: 10px;
+        }
+
+        .n-icon {
+            width: 36px;
+            height: 36px;
+            font-size: 16px;
+            border-radius: 10px;
+        }
+
+        .n-msg {
+            font-size: 13px;
+        }
     }
 </style>
-
 <body>
-
 {% if messages %}
-    <div class="message-container" id="msg-container">
-        {% for message in messages %}
-            <div class="msg-card msg-{{ message.tags }}" onclick="this.style.display='none'">
-                <span style="font-size: 20px;">
-                    {% if message.tags == 'success' %} ✅
-                    {% elif message.tags == 'error' or message.tags == 'danger' %} ⚡
-                    {% else %} ℹ️ {% endif %}
-                </span>
-                <div class="msg-content">
-                    <b>{{ message.tags }}</b>
-                    {{ message }}
+    <div class="n-stack" id="nStack">{% for message in messages %}{% if message.tags == 'success' %}
+        <div class="n-card nc-success" onclick="nD(this)">
+            <div class="n-shimmer"></div>
+            <div class="n-glow"></div>
+            <div class="n-stripe"></div>
+            <div class="n-body">
+                <div class="n-icon">✅
+                    <div class="n-live-dot"></div>
+                </div>
+                <div class="n-text">
+                    <div class="n-tag">
+                        <div class="n-tag-dot"></div>
+                        Muvaffaqiyat
+                    </div>
+                    <div class="n-msg">{{ message }}</div>
+                    <div class="n-time">Hozir</div>
+                </div>
+                <button class="n-close" onclick="nD(this.closest('.n-card'));event.stopPropagation()">✕</button>
+            </div>
+            <div class="n-footer">
+                <div class="n-progress-bg">
+                    <div class="n-bar"></div>
                 </div>
             </div>
-        {% endfor %}
+        </div>
+    {% elif message.tags == 'error' or message.tags == 'danger' %}
+        <div class="n-card nc-error" onclick="nD(this)">
+            <div class="n-shimmer"></div>
+            <div class="n-glow"></div>
+            <div class="n-stripe"></div>
+            <div class="n-body">
+                <div class="n-icon">⛔
+                    <div class="n-live-dot"></div>
+                </div>
+                <div class="n-text">
+                    <div class="n-tag">
+                        <div class="n-tag-dot"></div>
+                        Xatolik
+                    </div>
+                    <div class="n-msg">{{ message }}</div>
+                    <div class="n-time">Hozir</div>
+                </div>
+                <button class="n-close" onclick="nD(this.closest('.n-card'));event.stopPropagation()">✕</button>
+            </div>
+            <div class="n-footer">
+                <div class="n-progress-bg">
+                    <div class="n-bar"></div>
+                </div>
+            </div>
+        </div>
+    {% elif message.tags == 'warning' %}
+        <div class="n-card nc-warning" onclick="nD(this)">
+            <div class="n-shimmer"></div>
+            <div class="n-glow"></div>
+            <div class="n-stripe"></div>
+            <div class="n-body">
+                <div class="n-icon">⚠️
+                    <div class="n-live-dot"></div>
+                </div>
+                <div class="n-text">
+                    <div class="n-tag">
+                        <div class="n-tag-dot"></div>
+                        Ogohlantirish
+                    </div>
+                    <div class="n-msg">{{ message }}</div>
+                    <div class="n-time">Hozir</div>
+                </div>
+                <button class="n-close" onclick="nD(this.closest('.n-card'));event.stopPropagation()">✕</button>
+            </div>
+            <div class="n-footer">
+                <div class="n-progress-bg">
+                    <div class="n-bar"></div>
+                </div>
+            </div>
+        </div>
+    {% elif message.tags == 'info' %}
+        <div class="n-card nc-info" onclick="nD(this)">
+            <div class="n-shimmer"></div>
+            <div class="n-glow"></div>
+            <div class="n-stripe"></div>
+            <div class="n-body">
+                <div class="n-icon">💡
+                    <div class="n-live-dot"></div>
+                </div>
+                <div class="n-text">
+                    <div class="n-tag">
+                        <div class="n-tag-dot"></div>
+                        Ma'lumot
+                    </div>
+                    <div class="n-msg">{{ message }}</div>
+                    <div class="n-time">Hozir</div>
+                </div>
+                <button class="n-close" onclick="nD(this.closest('.n-card'));event.stopPropagation()">✕</button>
+            </div>
+            <div class="n-footer">
+                <div class="n-progress-bg">
+                    <div class="n-bar"></div>
+                </div>
+            </div>
+        </div>
+    {% elif message.tags == 'debug' %}
+        <div class="n-card nc-debug" onclick="nD(this)">
+            <div class="n-shimmer"></div>
+            <div class="n-glow"></div>
+            <div class="n-stripe"></div>
+            <div class="n-body">
+                <div class="n-icon">🔧
+                    <div class="n-live-dot"></div>
+                </div>
+                <div class="n-text">
+                    <div class="n-tag">
+                        <div class="n-tag-dot"></div>
+                        Debug
+                    </div>
+                    <div class="n-msg">{{ message }}</div>
+                    <div class="n-time">Hozir</div>
+                </div>
+                <button class="n-close" onclick="nD(this.closest('.n-card'));event.stopPropagation()">✕</button>
+            </div>
+            <div class="n-footer">
+                <div class="n-progress-bg">
+                    <div class="n-bar"></div>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="n-card nc-info" onclick="nD(this)">
+            <div class="n-shimmer"></div>
+            <div class="n-glow"></div>
+            <div class="n-stripe"></div>
+            <div class="n-body">
+                <div class="n-icon">📌
+                    <div class="n-live-dot"></div>
+                </div>
+                <div class="n-text">
+                    <div class="n-tag">
+                        <div class="n-tag-dot"></div>
+                        {{ message.tags }}</div>
+                    <div class="n-msg">{{ message }}</div>
+                    <div class="n-time">Hozir</div>
+                </div>
+                <button class="n-close" onclick="nD(this.closest('.n-card'));event.stopPropagation()">✕</button>
+            </div>
+            <div class="n-footer">
+                <div class="n-progress-bg">
+                    <div class="n-bar"></div>
+                </div>
+            </div>
+        </div>
+    {% endif %}{% endfor %}
     </div>
-
     <script>
-        setTimeout(function() {
-            let container = document.getElementById('msg-container');
-            if (container) {
-                let cards = container.getElementsByClassName('msg-card');
-                for (let card of cards) {
-                    card.style.animation = "fadeOut 0.5s forwards";
-                    setTimeout(() => card.remove(), 500);
-                }
-            }
-        }, 5000);
+        function nD(c) {
+            if (!c || c.classList.contains('dismissing')) return;
+            c.classList.add('dismissing');
+            setTimeout(function () {
+                c.remove();
+                var s = document.getElementById('nStack');
+                if (s && !s.children.length) s.remove();
+            }, 460);
+        }
+
+        (function () {
+            var cs = document.querySelectorAll('.n-card');
+            cs.forEach(function (c, i) {
+                setTimeout(function () {
+                    if (c.isConnected) nD(c);
+                }, 5200 + i * 380);
+            });
+        })();
     </script>
 {% endif %}
 </body>

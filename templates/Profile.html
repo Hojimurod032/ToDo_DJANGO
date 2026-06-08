@@ -1,0 +1,1326 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DoTask — Profilim</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap"
+          rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0a0a0f;
+            --surface: #12121a;
+            --surface2: #1a1a26;
+            --border: #2a2a3a;
+            --accent: #ff3c5e;
+            --accent2: #7b2fff;
+            --green: #00dc82;
+            --yellow: #ffd700;
+            --text: #e8e8f0;
+            --muted: #6b6b80;
+            --input-bg: #1a1a26;
+            --sidebar-width: 280px;
+            --topbar-height: 64px;
+            --mobile-bottom-nav: 64px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'DM Sans', sans-serif;
+            min-height: 100vh;
+            display: flex;
+        }
+
+        /* ===== SIDEBAR ===== */
+        .sidebar {
+            width: var(--sidebar-width);
+            min-height: 100vh;
+            background: var(--surface);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 200;
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar-header {
+            padding: 28px 24px 20px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .brand {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 32px;
+            letter-spacing: 3px;
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .brand-sub {
+            font-size: 11px;
+            color: var(--muted);
+            letter-spacing: 2px;
+            margin-top: 2px;
+        }
+
+        .profile-card {
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .profile-avatar-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 22px;
+            color: white;
+            flex-shrink: 0;
+            box-shadow: 0 4px 20px rgba(255, 60, 94, 0.3);
+        }
+
+        .profile-info .name {
+            font-weight: 600;
+            font-size: 15px;
+        }
+
+        .profile-info .username {
+            font-size: 12px;
+            color: var(--muted);
+            margin-top: 2px;
+        }
+
+        .profile-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 8px;
+        }
+
+        .stat-item {
+            background: var(--surface2);
+            border-radius: 8px;
+            padding: 8px;
+            text-align: center;
+            border: 1px solid var(--border);
+        }
+
+        .stat-num {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 22px;
+            color: var(--accent);
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 10px;
+            color: var(--muted);
+            letter-spacing: 1px;
+            margin-top: 2px;
+        }
+
+        .sidebar-nav {
+            padding: 16px 12px;
+            flex: 1;
+        }
+
+        .nav-label {
+            font-size: 10px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--muted);
+            padding: 0 12px;
+            margin: 8px 0 6px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 11px 14px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s;
+            font-size: 14px;
+            color: var(--muted);
+            margin-bottom: 2px;
+            text-decoration: none;
+        }
+
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text);
+        }
+
+        .nav-item.active {
+            background: rgba(255, 60, 94, 0.12);
+            color: var(--accent);
+        }
+
+        .nav-item .icon {
+            font-size: 16px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .nav-item .badge {
+            margin-left: auto;
+            background: var(--accent);
+            color: white;
+            font-size: 10px;
+            font-weight: 600;
+            padding: 2px 7px;
+            border-radius: 20px;
+        }
+
+        .sidebar-footer {
+            padding: 16px 12px;
+            border-top: 1px solid var(--border);
+        }
+
+        .btn-logout {
+            width: 100%;
+            padding: 11px;
+            background: transparent;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            color: var(--muted);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+
+        .btn-logout:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: rgba(255, 60, 94, 0.06);
+        }
+
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 150;
+            backdrop-filter: blur(2px);
+        }
+
+        /* ===== MAIN ===== */
+        .main {
+            margin-left: var(--sidebar-width);
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .topbar {
+            position: sticky;
+            top: 0;
+            background: rgba(10, 10, 15, 0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            padding: 0 32px;
+            height: var(--topbar-height);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 50;
+        }
+
+        .topbar-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            padding: 6px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: var(--surface2);
+            transition: all 0.2s;
+        }
+
+        .hamburger span {
+            display: block;
+            width: 20px;
+            height: 2px;
+            background: var(--muted);
+            border-radius: 2px;
+        }
+
+        .hamburger:hover span {
+            background: var(--accent);
+        }
+
+        .page-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 28px;
+            letter-spacing: 2px;
+        }
+
+        .page-title span {
+            color: var(--accent);
+        }
+
+        /* ===== CONTENT ===== */
+        .content {
+            padding: 32px;
+            flex: 1;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 28px;
+        }
+
+        .section-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 22px;
+            letter-spacing: 2px;
+            color: var(--muted);
+        }
+
+        /* ===== PROFILE HERO ===== */
+        .profile-hero {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 36px 40px;
+            margin-bottom: 24px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            gap: 32px;
+        }
+
+        .profile-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent), var(--accent2));
+        }
+
+        .profile-hero::after {
+            content: '';
+            position: absolute;
+            top: -60px;
+            right: -60px;
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 60, 94, 0.08) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 46px;
+            color: white;
+            flex-shrink: 0;
+            box-shadow: 0 8px 32px rgba(255, 60, 94, 0.35);
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-info {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-name {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 40px;
+            letter-spacing: 2px;
+            line-height: 1;
+            margin-bottom: 4px;
+        }
+
+        .hero-username {
+            font-size: 13px;
+            color: var(--accent);
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+        }
+
+        .hero-email {
+            font-size: 14px;
+            color: var(--muted);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .hero-joined {
+            font-size: 12px;
+            color: var(--muted);
+            margin-top: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* ===== STATS GRID ===== */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .stat-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 24px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            transition: border-color 0.3s, transform 0.2s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-3px);
+            border-color: rgba(255, 60, 94, 0.3);
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+        }
+
+        .stat-card.total::before {
+            background: linear-gradient(90deg, var(--accent2), var(--accent));
+        }
+
+        .stat-card.done::before {
+            background: linear-gradient(90deg, var(--green), #00a86b);
+        }
+
+        .stat-card.left::before {
+            background: linear-gradient(90deg, var(--yellow), #e5a800);
+        }
+
+        .stat-card-icon {
+            font-size: 28px;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .stat-card-num {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 52px;
+            line-height: 1;
+            margin-bottom: 4px;
+        }
+
+        .stat-card.total .stat-card-num {
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-card.done .stat-card-num {
+            color: var(--green);
+        }
+
+        .stat-card.left .stat-card-num {
+            color: var(--yellow);
+        }
+
+        .stat-card-label {
+            font-size: 11px;
+            color: var(--muted);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        /* ===== PROGRESS RING ===== */
+        .progress-section {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 28px;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 32px;
+        }
+
+        .ring-wrap {
+            flex-shrink: 0;
+            position: relative;
+            width: 110px;
+            height: 110px;
+        }
+
+        .ring-wrap svg {
+            transform: rotate(-90deg);
+        }
+
+        .ring-track {
+            fill: none;
+            stroke: var(--surface2);
+            stroke-width: 10;
+        }
+
+        .ring-fill {
+            fill: none;
+            stroke: url(#ringGrad);
+            stroke-width: 10;
+            stroke-linecap: round;
+            stroke-dasharray: 283;
+            stroke-dashoffset: 283;
+            transition: stroke-dashoffset 1.2s cubic-bezier(.4, 0, .2, 1);
+        }
+
+        .ring-label {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .ring-pct {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 28px;
+            line-height: 1;
+            color: var(--text);
+        }
+
+        .ring-sub {
+            font-size: 10px;
+            color: var(--muted);
+            letter-spacing: 1px;
+        }
+
+        .progress-text h3 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 22px;
+            letter-spacing: 2px;
+            margin-bottom: 6px;
+        }
+
+        .progress-text p {
+            font-size: 13px;
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        .progress-bar-wrap {
+            background: var(--surface2);
+            border-radius: 4px;
+            height: 6px;
+            margin-top: 14px;
+            overflow: hidden;
+            max-width: 300px;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent), var(--accent2));
+            border-radius: 4px;
+            transition: width 0.8s ease;
+        }
+
+        /* ===== RECENT TODOS ===== */
+        .recent-section {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        .recent-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 18px;
+        }
+
+        .recent-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 18px;
+            letter-spacing: 2px;
+            color: var(--muted);
+        }
+
+        .view-all {
+            font-size: 12px;
+            color: var(--accent);
+            text-decoration: none;
+            letter-spacing: 1px;
+            transition: opacity 0.2s;
+        }
+
+        .view-all:hover {
+            opacity: 0.7;
+        }
+
+        .recent-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .recent-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .recent-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .recent-dot.done {
+            background: var(--green);
+        }
+
+        .recent-dot.progress {
+            background: var(--accent);
+        }
+
+        .recent-dot.waiting {
+            background: var(--yellow);
+        }
+
+        .recent-name {
+            flex: 1;
+            font-size: 14px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .recent-badge {
+            font-size: 10px;
+            padding: 2px 9px;
+            border-radius: 20px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            flex-shrink: 0;
+        }
+
+        .badge-done {
+            background: rgba(0, 220, 130, 0.1);
+            color: var(--green);
+            border: 1px solid rgba(0, 220, 130, 0.2);
+        }
+
+        .badge-progress {
+            background: rgba(255, 60, 94, 0.12);
+            color: var(--accent);
+            border: 1px solid rgba(255, 60, 94, 0.2);
+        }
+
+        .badge-waiting {
+            background: rgba(255, 215, 0, 0.1);
+            color: var(--yellow);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+        }
+
+        /* ===== INFO CARD ===== */
+        .info-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 28px;
+            margin-bottom: 24px;
+        }
+
+        .info-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 22px;
+        }
+
+        .info-card-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 18px;
+            letter-spacing: 2px;
+            color: var(--muted);
+        }
+
+        .info-rows {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        .info-row {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 14px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .info-row:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .info-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 17px;
+            flex-shrink: 0;
+        }
+
+        .info-row-body {
+            flex: 1;
+        }
+
+        .info-row-label {
+            font-size: 11px;
+            color: var(--muted);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 2px;
+        }
+
+        .info-row-val {
+            font-size: 15px;
+            font-weight: 500;
+        }
+
+        /* ===== UPDATE BUTTON ===== */
+        .btn-update {
+            padding: 11px 22px;
+            background: linear-gradient(135deg, var(--accent2), #5a1fc8);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 16px;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 16px rgba(123, 47, 255, 0.3);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-update:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(123, 47, 255, 0.45);
+        }
+
+        /* ===== MODAL ===== */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(6px);
+            z-index: 999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        .modal {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 36px;
+            width: 100%;
+            max-width: 460px;
+            position: relative;
+            animation: modalIn 0.3s ease;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        @keyframes modalIn {
+            from {
+                opacity: 0;
+                transform: scale(0.92) translateY(-16px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .modal::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent2), var(--accent));
+            border-radius: 20px 20px 0 0;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: var(--surface2);
+            color: var(--muted);
+            font-size: 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .modal-close:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .modal-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 28px;
+            letter-spacing: 2px;
+            margin-bottom: 24px;
+        }
+
+        .modal-title .accent2 {
+            color: var(--accent2);
+        }
+
+        .modal-group {
+            margin-bottom: 16px;
+        }
+
+        .modal-group label {
+            display: block;
+            font-size: 11px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 8px;
+        }
+
+        .modal-group input {
+            width: 100%;
+            background: var(--input-bg);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 12px 14px;
+            color: var(--text);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .modal-group input:focus {
+            border-color: var(--accent2);
+        }
+
+        .modal-hint {
+            font-size: 11px;
+            color: var(--muted);
+            margin-top: 5px;
+        }
+
+        .modal-divider {
+            height: 1px;
+            background: var(--border);
+            margin: 20px 0;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 24px;
+        }
+
+        .btn-submit-modal {
+            flex: 1;
+            padding: 13px;
+            background: linear-gradient(135deg, var(--accent2), #5a1fc8);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 18px;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .btn-submit-modal:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-cancel-modal {
+            padding: 13px 20px;
+            background: transparent;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            color: var(--muted);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-cancel-modal:hover {
+            border-color: var(--accent2);
+            color: var(--accent2);
+        }
+
+        /* ===== MOBILE BOTTOM NAV ===== */
+        .mobile-bottom-nav {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: var(--mobile-bottom-nav);
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+            z-index: 100;
+            justify-content: space-around;
+            align-items: center;
+            padding: 0 8px;
+        }
+
+        .mob-nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3px;
+            padding: 8px 16px;
+            border-radius: 10px;
+            cursor: pointer;
+            color: var(--muted);
+            font-size: 10px;
+            transition: all 0.2s;
+            letter-spacing: 1px;
+            text-decoration: none;
+        }
+
+        .mob-nav-item .mob-icon {
+            font-size: 20px;
+        }
+
+        .mob-nav-item.active {
+            color: var(--accent);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            body {
+                overflow-x: hidden;
+            }
+
+            .sidebar {
+                transform: translateX(-100%);
+                width: 280px;
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .sidebar-overlay {
+                display: block;
+                opacity: 0;
+                pointer-events: none;
+                transition: opacity 0.3s;
+            }
+
+            .sidebar-overlay.show {
+                opacity: 1;
+                pointer-events: all;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .main {
+                margin-left: 0;
+            }
+
+            .topbar {
+                padding: 0 16px;
+            }
+
+            .page-title {
+                font-size: 20px;
+            }
+
+            .content {
+                padding: 16px 16px 80px;
+            }
+
+            .profile-hero {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 20px;
+                padding: 24px 20px;
+            }
+
+            .hero-name {
+                font-size: 30px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr 1fr 1fr;
+                gap: 10px;
+            }
+
+            .stat-card {
+                padding: 16px 12px;
+            }
+
+            .stat-card-num {
+                font-size: 38px;
+            }
+
+            .progress-section {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 20px;
+            }
+
+            .info-card {
+                padding: 20px 16px;
+            }
+
+            .modal {
+                padding: 24px 18px;
+            }
+
+            .modal-title {
+                font-size: 22px;
+            }
+
+            .modal-actions {
+                flex-direction: column;
+            }
+
+            .btn-cancel-modal {
+                text-align: center;
+            }
+
+            .mobile-bottom-nav {
+                display: flex;
+            }
+        }
+    </style>
+</head>
+<body>
+{% include 'Error.html' %}
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
+<aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+        <div class="brand">DoTask</div>
+        <div class="brand-sub">Vazifalar Boshqaruvi</div>
+    </div>
+    <a class="profile-card" href="{% url 'profile' %}" style="text-decoration: none;color: white">
+        <div class="profile-avatar-row">
+            <div class="avatar">{{ request.user.last_name|slice:":1" }}{{ request.user.first_name|slice:":1" }}</div>
+            <div class="profile-info">
+                <div class="name">{{ request.user.first_name }}</div>
+                <div class="username">{{ request.user.email }}</div>
+            </div>
+        </div>
+        <div class="profile-stats">
+            <div class="stat-item">
+                <div class="stat-num">{{ user_todo_count }}</div>
+                <div class="stat-label">Jami</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-num">{{ user_todo_succes }}</div>
+                <div class="stat-label">Bajarildi</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-num">{{ user_todo_other }}</div>
+                <div class="stat-label">Qoldi</div>
+            </div>
+        </div>
+    </a>
+
+    <nav class="sidebar-nav">
+        <div class="nav-label">Menyu</div>
+        <a class="nav-item" href="{% url 'home' %}">
+            <span class="icon">🏠</span> Bosh sahifa
+            <span class="badge">{{ user_todo_count }}</span>
+        </a>
+        <a class="nav-item active" href="{% url 'profile' %}">
+            <span class="icon">👤</span> Profilim
+        </a>
+        <a class="nav-item" href="{% url 'setting'%}">
+            <span class="icon">⚙️</span> Sozlamalar
+        </a>
+    </nav>
+
+    <div class="sidebar-footer">
+        <a href="{% url 'logout' %}" class="btn-logout">🚪 Chiqish</a>
+    </div>
+</aside>
+
+<div class="main">
+    <header class="topbar">
+        <div class="topbar-left">
+            <div class="hamburger" id="hamburger" onclick="toggleSidebar()">
+                <span></span><span></span><span></span>
+            </div>
+            <div class="page-title">MENING <span>PROFILIM</span></div>
+        </div>
+    </header>
+
+    <div class="content">
+
+        <div class="profile-hero">
+            <div class="hero-avatar">
+                {{ request.user.last_name|slice:":1" }}{{ request.user.first_name|slice:":1" }}</div>
+            <div class="hero-info">
+                <div class="hero-name">{{ request.user.first_name }}</div>
+                <div class="hero-username">SOON</div>
+                <div class="hero-email">📧 {{ request.user.email }}</div>
+                <div class="hero-joined">🗓️ Qo'shilgan: {{ request.user.date_joined }}</div>
+            </div>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card total">
+                <span class="stat-card-icon">📋</span>
+                <div class="stat-card-num">{{ user_todo_count }}</div>
+                <div class="stat-card-label">Jami Vazifa</div>
+            </div>
+            <div class="stat-card done">
+                <span class="stat-card-icon">✅</span>
+                <div class="stat-card-num">{{ user_todo_succes }}</div>
+                <div class="stat-card-label">Bajarildi</div>
+            </div>
+            <div class="stat-card left">
+                <span class="stat-card-icon">⏳</span>
+                <div class="stat-card-num">{{ user_todo_other }}</div>
+                <div class="stat-card-label">Qoldi</div>
+            </div>
+        </div>
+
+        <div class="progress-section">
+            <div class="ring-wrap">
+                <svg width="110" height="110" viewBox="0 0 110 110">
+                    <defs>
+                        <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" style="stop-color:#ff3c5e"/>
+                            <stop offset="100%" style="stop-color:#7b2fff"/>
+                        </linearGradient>
+                    </defs>
+                    <circle class="ring-track" cx="55" cy="55" r="45"/>
+                    <circle class="ring-fill" id="ringFill" cx="55" cy="55" r="45"/>
+                </svg>
+                <div class="ring-label">
+                    <span class="ring-pct" id="ringPct">{{ user_todo_succes }}</span>
+                    <span class="ring-sub">PROGRESS</span>
+                </div>
+            </div>
+            <div class="progress-text">
+                <h3>UMUMIY PROGRESS</h3>
+                <p>Siz jami {{ user_todo_count }} ta vazifadan {{ user_todo_succes }} tasini muvaffaqiyatli bajardingiz.
+                    Shunchaki {{ user_todo_other }} ta vazifa qoldi!</p>
+                <div class="progress-bar-wrap">
+                    <div class="progress-bar-fill" id="progressBar" style="width: 0%"></div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="info-card">
+            <div class="info-card-header">
+                <div class="info-card-title">SHAXSIY MA'LUMOTLAR</div>
+                <a href="{% url 'setting' %}" class="btn-update">⚙️ SOZLAMALAR</a>
+            </div>
+            <div class="info-rows">
+                <div class="info-row">
+                    <div class="info-icon">👤</div>
+                    <div class="info-row-body">
+                        <div class="info-row-label">Ism</div>
+                        <div class="info-row-val">{{ request.user.first_name }}</div>
+                    </div>
+                </div>
+                <div class="info-row">
+                    <div class="info-icon">🏷️</div>
+                    <div class="info-row-body">
+                        <div class="info-row-label">Familiya</div>
+                        <div class="info-row-val">{{ request.user.last_name }}</div>
+                    </div>
+                </div>
+                <div class="info-row">
+                    <div class="info-icon">📧</div>
+                    <div class="info-row-body">
+                        <div class="info-row-label">Email</div>
+                        <div class="info-row-val">{{ request.user.email }}</div>
+                    </div>
+                </div>
+                <div class="info-row">
+                    <div class="info-icon">🔑</div>
+                    <div class="info-row-body">
+                        <div class="info-row-label">Foydalanuvchi nomi</div>
+                        <div class="info-row-val"> {% if request.user.username %}
+                            {{ request.user.username }}
+                        {% else %}
+                            SOON
+                        {% endif %} </div>
+                    </div>
+                </div>
+                <div class="info-row">
+                    <div class="info-icon">🗓️</div>
+                    <div class="info-row-body">
+                        <div class="info-row-label">Ro'yxatdan o'tgan sana</div>
+                        <div class="info-row-val">{{ request.user.date_joined }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<nav class="mobile-bottom-nav">
+    <a class="mob-nav-item" href="{% url 'home' %}">
+        <span class="mob-icon">🏠</span>
+        <span>Bosh</span>
+    </a>
+    <a class="mob-nav-item active" href="{% url 'profile' %}">
+        <span class="mob-icon">👤</span>
+        <span>Profil</span>
+    </a>
+    <a class="mob-nav-item" href="{% url 'setting' %}">
+        <span class="mob-icon">⚙️</span> Sozlamalar
+    </a>
+    <a class="mob-nav-item" href="{% url 'logout' %}" style="color:#ff3c5e;">
+        <span class="mob-icon">⛔️</span>
+        <span>Chiqish</span>
+    </a>
+</nav>
+
+
+<script>
+    function toggleSidebar() {
+        document.getElementById('sidebar').classList.toggle('open');
+        document.getElementById('sidebarOverlay').classList.toggle('show');
+    }
+
+    function closeSidebar() {
+        document.getElementById('sidebar').classList.remove('open');
+        document.getElementById('sidebarOverlay').classList.remove('show');
+    }
+
+    /* Modal */
+    function openUpdateModal() {
+        document.getElementById('updateModal').classList.add('show');
+    }
+
+    function closeUpdateModal() {
+        document.getElementById('updateModal').classList.remove('show');
+    }
+
+    document.getElementById('updateModal').addEventListener('click', function (e) {
+        if (e.target === this) closeUpdateModal();
+    });
+
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') closeUpdateModal();
+    });
+
+    /* Progress ring animation */
+    window.addEventListener('load', function () {
+
+        var success = {{ user_todo_succes }};
+        var total = {{ user_todo_count }};
+
+        var pct = total > 0 ? Math.round((success / total) * 100) : 0;
+
+        var circumference = 283;
+        var offset = circumference - (pct / 100) * circumference;
+
+        document.getElementById('ringFill').style.strokeDashoffset = offset;
+
+        document.getElementById('ringPct').textContent = pct + '%';
+
+        document.getElementById('progressBar').style.width = pct + '%';
+    });
+</script>
+
+</body>
+</html>

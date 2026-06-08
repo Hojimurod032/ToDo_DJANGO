@@ -1,0 +1,1154 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DoTask — Sozlamalar</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap"
+          rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0a0a0f;
+            --surface: #12121a;
+            --surface2: #1a1a26;
+            --border: #2a2a3a;
+            --accent: #ff3c5e;
+            --accent2: #7b2fff;
+            --green: #00dc82;
+            --yellow: #ffd700;
+            --text: #e8e8f0;
+            --muted: #6b6b80;
+            --input-bg: #1a1a26;
+            --sidebar-width: 280px;
+            --topbar-height: 64px;
+            --mobile-bottom-nav: 64px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'DM Sans', sans-serif;
+            min-height: 100vh;
+            display: flex;
+        }
+
+        /* ===== SIDEBAR ===== */
+        .sidebar {
+            width: var(--sidebar-width);
+            min-height: 100vh;
+            background: var(--surface);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 200;
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar-header {
+            padding: 28px 24px 20px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .brand {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 32px;
+            letter-spacing: 3px;
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .brand-sub {
+            font-size: 11px;
+            color: var(--muted);
+            letter-spacing: 2px;
+            margin-top: 2px;
+        }
+
+        .profile-card {
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--border);
+            text-decoration: none;
+            color: var(--text);
+            display: block;
+            transition: background 0.2s;
+        }
+
+        .profile-card:hover {
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .profile-avatar-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 22px;
+            color: white;
+            flex-shrink: 0;
+            box-shadow: 0 4px 20px rgba(255, 60, 94, 0.3);
+        }
+
+        .profile-info .name {
+            font-weight: 600;
+            font-size: 15px;
+        }
+
+        .profile-info .username {
+            font-size: 12px;
+            color: var(--muted);
+            margin-top: 2px;
+        }
+
+        .profile-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 8px;
+        }
+
+        .stat-item {
+            background: var(--surface2);
+            border-radius: 8px;
+            padding: 8px;
+            text-align: center;
+            border: 1px solid var(--border);
+        }
+
+        .stat-num {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 22px;
+            color: var(--accent);
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 10px;
+            color: var(--muted);
+            letter-spacing: 1px;
+            margin-top: 2px;
+        }
+
+        .sidebar-nav {
+            padding: 16px 12px;
+            flex: 1;
+        }
+
+        .nav-label {
+            font-size: 10px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--muted);
+            padding: 0 12px;
+            margin: 8px 0 6px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 11px 14px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s;
+            font-size: 14px;
+            color: var(--muted);
+            margin-bottom: 2px;
+            text-decoration: none;
+        }
+
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text);
+        }
+
+        .nav-item.active {
+            background: rgba(255, 60, 94, 0.12);
+            color: var(--accent);
+        }
+
+        .nav-item .icon {
+            font-size: 16px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .nav-item .badge {
+            margin-left: auto;
+            background: var(--accent);
+            color: white;
+            font-size: 10px;
+            font-weight: 600;
+            padding: 2px 7px;
+            border-radius: 20px;
+        }
+
+        .sidebar-footer {
+            padding: 16px 12px;
+            border-top: 1px solid var(--border);
+        }
+
+        .btn-logout {
+            width: 100%;
+            padding: 11px;
+            background: transparent;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            color: var(--muted);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+
+        .btn-logout:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: rgba(255, 60, 94, 0.06);
+        }
+
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 150;
+            backdrop-filter: blur(2px);
+        }
+
+        /* ===== MAIN ===== */
+        .main {
+            margin-left: var(--sidebar-width);
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .topbar {
+            position: sticky;
+            top: 0;
+            background: rgba(10, 10, 15, 0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            padding: 0 32px;
+            height: var(--topbar-height);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 50;
+        }
+
+        .topbar-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            padding: 6px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: var(--surface2);
+            transition: all 0.2s;
+        }
+
+        .hamburger span {
+            display: block;
+            width: 20px;
+            height: 2px;
+            background: var(--muted);
+            border-radius: 2px;
+        }
+
+        .hamburger:hover span {
+            background: var(--accent);
+        }
+
+        .page-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 28px;
+            letter-spacing: 2px;
+        }
+
+        .page-title span {
+            color: var(--accent);
+        }
+
+        /* ===== CONTENT ===== */
+        .content {
+            padding: 32px;
+            flex: 1;
+            max-width: 780px;
+        }
+
+        /* ===== SETTINGS TABS ===== */
+        .settings-tabs {
+            display: flex;
+            gap: 4px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 4px;
+            margin-bottom: 28px;
+        }
+
+        .settings-tab {
+            flex: 1;
+            padding: 10px 16px;
+            border-radius: 9px;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--muted);
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+        }
+
+        .settings-tab:hover {
+            color: var(--text);
+        }
+
+        .settings-tab.active {
+            background: rgba(255, 60, 94, 0.12);
+            color: var(--accent);
+        }
+
+        /* ===== SECTION BLOCK ===== */
+        .settings-block {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .settings-block::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent2), var(--accent));
+        }
+
+        .block-header {
+            padding: 22px 28px 18px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .block-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            background: rgba(255, 60, 94, 0.1);
+            border: 1px solid rgba(255, 60, 94, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .block-icon.purple {
+            background: rgba(123, 47, 255, 0.1);
+            border-color: rgba(123, 47, 255, 0.2);
+        }
+
+        .block-icon.green {
+            background: rgba(0, 220, 130, 0.1);
+            border-color: rgba(0, 220, 130, 0.2);
+        }
+
+        .block-icon.red {
+            background: rgba(255, 60, 94, 0.1);
+            border-color: rgba(255, 60, 94, 0.2);
+        }
+
+        .block-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 18px;
+            letter-spacing: 2px;
+        }
+
+        .block-desc {
+            font-size: 12px;
+            color: var(--muted);
+            margin-top: 2px;
+        }
+
+        .block-body {
+            padding: 24px 28px;
+        }
+
+        /* ===== AVATAR SECTION ===== */
+        .avatar-section {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            margin-bottom: 28px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .avatar-big {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 36px;
+            color: white;
+            flex-shrink: 0;
+            box-shadow: 0 6px 24px rgba(255, 60, 94, 0.35);
+        }
+
+        .avatar-info h4 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .avatar-info p {
+            font-size: 12px;
+            color: var(--muted);
+            line-height: 1.5;
+        }
+
+        /* ===== FORM GRID ===== */
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .form-grid .full {
+            grid-column: 1 / -1;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-group label {
+            font-size: 11px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--muted);
+            font-weight: 500;
+        }
+
+        .form-group input, .form-group select {
+            background: var(--input-bg);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 12px 14px;
+            color: var(--text);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.25s, box-shadow 0.25s;
+            width: 100%;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            border-color: var(--accent2);
+            box-shadow: 0 0 0 3px rgba(123, 47, 255, 0.1);
+        }
+
+        .form-group input::placeholder {
+            color: var(--muted);
+        }
+
+        .form-group .input-hint {
+            font-size: 11px;
+            color: var(--muted);
+            margin-top: 4px;
+        }
+
+        .input-with-icon {
+            position: relative;
+        }
+
+        .input-with-icon input {
+            padding-right: 42px;
+        }
+
+        .input-eye {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            font-size: 16px;
+            color: var(--muted);
+            transition: color 0.2s;
+            user-select: none;
+        }
+
+        .input-eye:hover {
+            color: var(--accent2);
+        }
+
+        /* ===== DIVIDER ===== */
+        .form-divider {
+            height: 1px;
+            background: var(--border);
+            margin: 24px 0;
+            position: relative;
+        }
+
+        .form-divider span {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            top: -10px;
+            background: var(--surface);
+            padding: 0 12px;
+            font-size: 11px;
+            color: var(--muted);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        /* ===== DANGER ZONE ===== */
+        .danger-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 18px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .danger-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .danger-info h4 {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 3px;
+        }
+
+        .danger-info p {
+            font-size: 12px;
+            color: var(--muted);
+        }
+
+        .btn-danger {
+            padding: 9px 18px;
+            border: 1px solid rgba(255, 60, 94, 0.35);
+            border-radius: 8px;
+            background: rgba(255, 60, 94, 0.08);
+            color: var(--accent);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .btn-danger:hover {
+            background: rgba(255, 60, 94, 0.16);
+            border-color: var(--accent);
+        }
+
+        /* ===== SAVE BUTTON ===== */
+        .form-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 28px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border);
+        }
+
+        .btn-save {
+            padding: 13px 32px;
+            background: linear-gradient(135deg, var(--accent2), #5a1fc8);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 18px;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 16px rgba(123, 47, 255, 0.35);
+        }
+
+        .btn-save:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(123, 47, 255, 0.5);
+        }
+
+        .btn-cancel {
+            padding: 13px 24px;
+            background: transparent;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            color: var(--muted);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .btn-cancel:hover {
+            border-color: var(--muted);
+            color: var(--text);
+        }
+
+        .save-hint {
+            font-size: 12px;
+            color: var(--muted);
+            margin-left: auto;
+        }
+
+        /* ===== SUCCESS TOAST ===== */
+        .toast {
+            position: fixed;
+            bottom: 28px;
+            right: 28px;
+            background: var(--surface);
+            border: 1px solid rgba(0, 220, 130, 0.3);
+            border-radius: 12px;
+            padding: 14px 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            color: var(--green);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            z-index: 9999;
+            transform: translateY(80px);
+            opacity: 0;
+            transition: all 0.35s cubic-bezier(.4, 0, .2, 1);
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* ===== MOBILE BOTTOM NAV ===== */
+        .mobile-bottom-nav {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: var(--mobile-bottom-nav);
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+            z-index: 100;
+            justify-content: space-around;
+            align-items: center;
+            padding: 0 8px;
+        }
+
+        .mob-nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3px;
+            padding: 8px 14px;
+            border-radius: 10px;
+            cursor: pointer;
+            color: var(--muted);
+            font-size: 10px;
+            transition: all 0.2s;
+            letter-spacing: 1px;
+            text-decoration: none;
+        }
+
+        .mob-nav-item .mob-icon {
+            font-size: 20px;
+        }
+
+        .mob-nav-item.active {
+            color: var(--accent);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .sidebar-overlay {
+                display: block;
+                opacity: 0;
+                pointer-events: none;
+                transition: opacity 0.3s;
+            }
+
+            .sidebar-overlay.show {
+                opacity: 1;
+                pointer-events: all;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .main {
+                margin-left: 0;
+            }
+
+            .topbar {
+                padding: 0 16px;
+            }
+
+            .page-title {
+                font-size: 20px;
+            }
+
+            .content {
+                padding: 16px 16px 90px;
+                max-width: 100%;
+            }
+
+            .settings-tabs {
+                flex-wrap: wrap;
+            }
+
+            .settings-tab {
+                font-size: 12px;
+                padding: 9px 12px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-grid .full {
+                grid-column: 1;
+            }
+
+            .block-header {
+                padding: 18px 20px 14px;
+            }
+
+            .block-body {
+                padding: 18px 20px;
+            }
+
+            .avatar-section {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 16px;
+            }
+
+            .form-actions {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .btn-save {
+                text-align: center;
+            }
+
+            .save-hint {
+                margin-left: 0;
+                text-align: center;
+            }
+
+            .danger-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .btn-danger {
+                width: 100%;
+                text-align: center;
+            }
+
+            .mobile-bottom-nav {
+                display: flex;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .settings-tab span.tab-label {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+{% include 'Error.html' %}
+
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
+<aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+        <div class="brand">DoTask</div>
+        <div class="brand-sub">Vazifalar Boshqaruvi</div>
+    </div>
+
+    <a class="profile-card" href="{% url 'profile' %}">
+        <div class="profile-avatar-row">
+            <div class="avatar">{{ request.user.last_name|slice:":1" }}{{ request.user.first_name|slice:":1" }}</div>
+            <div class="profile-info">
+                <div class="name">{{ request.user.first_name }}</div>
+                <div class="username">{{ request.user.email }}</div>
+            </div>
+        </div>
+        <div class="profile-stats">
+            <div class="stat-item">
+                <div class="stat-num">{{ user_todo_count }}</div>
+                <div class="stat-label">Jami</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-num">{{ user_todo_succes }}</div>
+                <div class="stat-label">Bajarildi</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-num">{{ user_todo_other }}</div>
+                <div class="stat-label">Qoldi</div>
+            </div>
+        </div>
+    </a>
+
+    <nav class="sidebar-nav">
+        <div class="nav-label">Menyu</div>
+        <a class="nav-item" href="{% url 'home' %}">
+            <span class="icon">🏠</span> Bosh sahifa
+            <span class="badge">{{ user_todo_count }}</span>
+        </a>
+        <a class="nav-item" href="{% url 'profile' %}">
+            <span class="icon">👤</span> Profilim
+        </a>
+        <a class="nav-item active" href="{% url 'setting' %}">
+            <span class="icon">⚙️</span> Sozlamalar
+        </a>
+    </nav>
+
+    <div class="sidebar-footer">
+        <a href="{% url 'logout' %}" class="btn-logout">🚪 Chiqish</a>
+    </div>
+</aside>
+
+<div class="main">
+    <header class="topbar">
+        <div class="topbar-left">
+            <div class="hamburger" id="hamburger" onclick="toggleSidebar()">
+                <span></span><span></span><span></span>
+            </div>
+            <div class="page-title">⚙️ <span>SOZLAMALAR</span></div>
+        </div>
+    </header>
+
+    <div class="content">
+
+        <div class="settings-tabs">
+            <div class="settings-tab active" onclick="switchTab('profile', this)">
+                👤 <span class="tab-label">Profil</span>
+            </div>
+            <div class="settings-tab" onclick="switchTab('security', this)">
+                🔐 <span class="tab-label">Xavfsizlik</span>
+            </div>
+            <div class="settings-tab" onclick="switchTab('danger', this)">
+                ⚠️ <span class="tab-label">Xavfli zona</span>
+            </div>
+        </div>
+        <div id="tab-profile">
+
+            <div class="settings-block">
+                <div class="block-header">
+                    <div class="block-icon">👤</div>
+                    <div>
+                        <div class="block-title">SHAXSIY MA'LUMOTLAR</div>
+                        <div class="block-desc">Ism, familya va email ma'lumotlaringizni yangilang</div>
+                    </div>
+                </div>
+                <div class="block-body">
+
+                    <div class="avatar-section">
+                        <div class="avatar-big">
+                            {{ request.user.last_name|slice:":1" }}{{ request.user.first_name|slice:":1" }}
+                        </div>
+                        <div class="avatar-info">
+                            <h4>{{ request.user.get_full_name }}</h4>
+                            <p>Avatar hozircha avtomatik tarzda ismingiz<br>bosh harflaridan tuziladi.</p>
+                        </div>
+                    </div>
+
+                    <form action="{% url 'setting' %}" method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="form_type" value="profile">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Ism</label>
+                                <input type="text" name="first_name"
+                                       value="{{ user_data.first_name }}"
+                                       placeholder="Ismingiz">
+                            </div>
+                            <div class="form-group">
+                                <label>Familiya</label>
+                                <input type="text" name="last_name"
+                                       value="{{ user_data.last_name }}"
+                                       placeholder="Familiyangiz">
+                            </div>
+                            <div class="form-group full">
+                                <label>Email manzil</label>
+                                <input type="email" name="email"
+                                       value="{{ user_data.email }}"
+                                       placeholder="email@example.com">
+                            </div>
+                            <div class="form-group full">
+                                <label>Foydalanuvchi nomi</label>
+                                <input type="text" name="username"
+                                       value="SOON"
+                                       placeholder="@username"
+                                       readonly>
+                                <span class="input-hint">Foydalanuvchi nomi unikal bo'lishi kerak</span>
+                            </div>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="btn-save">SAQLASH</button>
+                            <a href="{% url 'profile' %}" class="btn-cancel">Bekor qilish</a>
+                            <span class="save-hint">Saqlash uchun ✦ ni bosing</span>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ====== TAB: XAVFSIZLIK ====== -->
+        <div id="tab-security" style="display:none;">
+
+            <div class="settings-block">
+                <div class="block-header">
+                    <div class="block-icon purple">🔐</div>
+                    <div>
+                        <div class="block-title">PAROLNI YANGILASH</div>
+                        <div class="block-desc">Xavfsizlik uchun parolingizni muntazam yangilab turing</div>
+                    </div>
+                </div>
+                <div class="block-body">
+
+                    <form action="{% url 'setting' %}" method="POST" id="securityForm">
+                        {% csrf_token %}
+                        <input type="hidden" name="form_type" value="password">
+
+                        <div class="form-grid">
+                            <div class="form-group full">
+                                <label>Joriy parol</label>
+                                <div class="input-with-icon">
+                                    <input type="password" name="current_password"
+                                           placeholder="Hozirgi parolingiz" id="curPwd">
+                                    <span class="input-eye" onclick="togglePwd('curPwd', this)">👁</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Yangi parol</label>
+                                <div class="input-with-icon">
+                                    <input type="password" name="new_password"
+                                           placeholder="Kamida 8 belgi" id="newPwd">
+                                    <span class="input-eye" onclick="togglePwd('newPwd', this)">👁</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Parolni tasdiqlang</label>
+                                <div class="input-with-icon">
+                                    <input type="password" name="confirm_password"
+                                           placeholder="Qaytadan kiriting" id="confPwd">
+                                    <span class="input-eye" onclick="togglePwd('confPwd', this)">👁</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-divider"><span>Parol qoidalari</span></div>
+
+                        <div style="display:flex; flex-direction:column; gap:6px; margin-bottom:4px;">
+                            <div style="font-size:12px; color:var(--muted); display:flex; align-items:center; gap:8px;">
+                                <span style="color:var(--green);">✓</span> Kamida 8 ta belgi
+                            </div>
+                            <div style="font-size:12px; color:var(--muted); display:flex; align-items:center; gap:8px;">
+                                <span style="color:var(--green);">✓</span> Katta va kichik harflar
+                            </div>
+                            <div style="font-size:12px; color:var(--muted); display:flex; align-items:center; gap:8px;">
+                                <span style="color:var(--green);">✓</span> Raqam yoki maxsus belgi
+                            </div>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="btn-save">YANGILASH</button>
+                            <span class="save-hint">Eski sessiyalar tugaydi</span>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ====== TAB: XAVFLI ZONA ====== -->
+        <div id="tab-danger" style="display:none;">
+
+            <div class="settings-block">
+                <div class="block-header">
+                    <div class="block-icon red">⚠️</div>
+                    <div>
+                        <div class="block-title">XAVFLI ZONA</div>
+                        <div class="block-desc">Bu amallар qaytarib bo'lmaydigan o'zgarishlarga olib keladi</div>
+                    </div>
+                </div>
+                <div class="block-body">
+
+                    <div class="danger-item">
+                        <div class="danger-info">
+                            <h4>Barcha vazifalarni o'chirish</h4>
+                            <p>Sizning barcha vazifalaringiz butunlay o'chirib tashlanadi.</p>
+                        </div>
+                        <a style="text-decoration: none" href="" class="btn-danger"
+                           onclick="return confirm('Haqiqatan ham barcha vazifalarni o\'chirmoqchimisiz?')">
+                            🗑️ Barchasini o'chir
+                        </a>
+                    </div>
+
+                    <div class="danger-item">
+                        <div class="danger-info">
+                            <h4>Hisobni o'chirish</h4>
+                            <p>Hisob va barcha ma'lumotlar butunlay va qaytarib bo'lmaydigan tarzda o'chiriladi.</p>
+                        </div>
+
+                        <form action="{% url 'setting' %}" method="POST"
+                              onsubmit="return confirm('Hisobni o\'chirishga ishonchingiz komilmi? Bu amalni ortga qaytarib bo\'lmaydi!')">
+                            {% csrf_token %}
+                            <input type="hidden" name="form_type" value="delete_account">
+                            <button type="submit" class="btn-danger">
+                                ⚠ Hisobni o'chir
+                            </button>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<nav class="mobile-bottom-nav">
+    <a class="mob-nav-item" href="{% url 'home' %}">
+        <span class="mob-icon">🏠</span>
+        <span>Bosh</span>
+    </a>
+    <a class="mob-nav-item" href="{% url 'profile' %}">
+        <span class="mob-icon">👤</span>
+        <span>Profil</span>
+    </a>
+    <a class="mob-nav-item active" href="{% url 'setting' %}">
+        <span class="mob-icon">⚙️</span>
+        <span>Sozlamalar</span>
+    </a>
+    <a class="mob-nav-item" href="{% url 'logout' %}" style="color:#ff3c5e;">
+        <span class="mob-icon">⛔️</span>
+        <span>Chiqish</span>
+    </a>
+</nav>
+
+<div class="toast" id="toast">✅ Muvaffaqiyatli saqlandi!</div>
+
+<script>
+    function toggleSidebar() {
+        document.getElementById('sidebar').classList.toggle('open');
+        document.getElementById('sidebarOverlay').classList.toggle('show');
+    }
+
+    function closeSidebar() {
+        document.getElementById('sidebar').classList.remove('open');
+        document.getElementById('sidebarOverlay').classList.remove('show');
+    }
+
+    function switchTab(name, el) {
+        ['profile', 'security', 'danger'].forEach(t => {
+            document.getElementById('tab-' + t).style.display = t === name ? 'block' : 'none';
+        });
+        document.querySelectorAll('.settings-tab').forEach(t => t.classList.remove('active'));
+        el.classList.add('active');
+    }
+
+    function togglePwd(id, eye) {
+        var inp = document.getElementById(id);
+        if (inp.type === 'password') {
+            inp.type = 'text';
+            eye.textContent = '🙈';
+        } else {
+            inp.type = 'password';
+            eye.textContent = '👁';
+        }
+    }
+
+    /* Show toast if Django adds ?saved=1 to URL */
+    if (new URLSearchParams(location.search).get('saved')) {
+        var t = document.getElementById('toast');
+        t.classList.add('show');
+        setTimeout(() => t.classList.remove('show'), 3200);
+    }
+</script>
+
+</body>
+</html>
